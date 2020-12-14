@@ -1,0 +1,41 @@
+{
+    "name": "vendor_name/hellenika-account",
+    "description": "REST based service for user's personal account",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Finking",
+            "email": "finking@helle-sonne.com"
+        }
+    ],
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "disable-tls": true,
+        "secure-http": false
+    },
+    "require": {
+        "php": "8.0",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-pdo": "*",
+        "firebase/php-jwt": "^5.2",
+        "laminas/laminas-diactoros": "^2.2",
+        "laminas/laminas-httphandlerrunner": "^1.1",
+        "php-di/php-di": "^6.0",
+        "ramsey/uuid": "^4.0",
+        "f16inkin/vulpix": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Absalon\\Application\\": "src/App/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.3"
+    },
+    "scripts": {
+        "test": "phpunit --color=always"
+    }
+}
