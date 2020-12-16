@@ -29,7 +29,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Absalon\\Application\\": "src/App/"
+            "Absalon\\Application\\": "src/App/",
+            "Absalon\\Engine\\": "src/Engine/"
         }
     },
     "require-dev": {
