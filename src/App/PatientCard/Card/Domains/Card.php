@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace Absalon\Application\PatientCard\Card\Domains;
 
 /**
- * Entity, которая содержит всю информацию о карте пациента
+ * Карта пациента
  *
  * Class Card
  * @package Absalon\Application\PatientCard\Card\Domains
@@ -22,17 +22,17 @@ class Card implements \JsonSerializable
     private string $_dateBirth;                     // [!!!] дата рождения
     private string|null $_phone;                    // номер телефона
     private string|null $_email;                    // адрес электронной почты
-    private int $_policyNumber;                     // [!!!] номер полиса
+    private string $_policyNumber;                  // [!!!] номер полиса
     private int|null $_insuranceCompanyId;          // id страховой компании, для поиска в клиенте
     private string|null $_insuranceCompanyName;     // имя страховой компании для отображения
-    private int $_insuranceCertificate;             // [!!!] СНИЛС
-    private int|null $_passportSerial;              // серия  паспорта
+    private string $_insuranceCertificate;          // [!!!] СНИЛС
+    private string|null $_passportSerial;              // серия  паспорта
                                                     // должен делать првоерку что оно int, перед вставкой в БД конвертить в стринг
-    private int|null $_passportNumber;              // номер паспорта
+    private string|null $_passportNumber;              // номер паспорта
     private string|null $_fmsDepartment;            // отдел УФМС выдавший паспорт
     private string|null $_birthCertificateSerial;   // серия свидетельства о рождении
                                                     // III-AB одна римская цифра, тире, две русских буквы
-    private int|null $_birthCertificateNumber;      // номер сертифката, 6 цифр
+    private string|null $_birthCertificateNumber;      // номер сертифката, 6 цифр
     private string|null $_registryOffice;           // отдел ЗАГС выдавший свидетельство
     private int|null $_regionId;                    // id региона
     private string|null $_regionName;               // название региона
@@ -43,79 +43,23 @@ class Card implements \JsonSerializable
     private int|null $_streetId;                    // id улицы
     private string|null $_streetName;               // название улицы
     private string|null $_houseNumber;              // номер дома, может быть с содержанием буквы, 45B
-    private int|null $_apartment;                   // номер квартиры
+    private string|null $_apartment;                   // номер квартиры
     private string|null $_workplace;                // место работы, заносится от руки
     private string|null $_profession;               // профессия
     private string|null $_notation;                 // любой комментарий
     #endregion
-    public function __construct
-    (
-        string $id,
-        int $cardNumber,
-        string $surname,
-        string $firstName,
-        string|null $secondName,
-        int $gender,
-        string $dateBirth,
-        string|null $phone,
-        string|null $email,
-        int $policyNumber,
-        int|null $insuranceCompanyId,
-        string|null $insuranceCompanyName,
-        int $insuranceCertificate,
-        int|null $passportSerial,
-        int|null $passportNumber,
-        string|null $fmsDepartment,
-        string|null $birthCertificateSerial,
-        int|null $birthCertificateNumber,
-        string|null $registryOffice,
-        int|null $regionId,
-        string|null $regionName,
-        int|null $districtId,
-        string|null $districtName,
-        int|null $localityId,
-        string|null $localityName,
-        int|null $streetId,
-        string|null $streetName,
-        string|null $houseNumber,
-        int|null $apartment,
-        string|null $workplace,
-        string|null $profession,
-        string|null $notation
-    )
-    {
-        $this->_id = $id;
-        $this->_cardNumber = $cardNumber;
-        $this->_surname = $surname;
-        $this->_firstName = $firstName;
-        $this->_secondName = $secondName;
-        $this->_gender = $gender;
-        $this->_dateBirth = $dateBirth;
-        $this->_phone = $phone;
-        $this->_email = $email;
-        $this->_policyNumber = $policyNumber;
-        $this->_insuranceCompanyId = $insuranceCompanyId;
-        $this->_insuranceCompanyName = $insuranceCompanyName;
-        $this->_insuranceCertificate = $insuranceCertificate;
-        $this->_passportSerial = $passportSerial;
-        $this->_passportNumber = $passportNumber;
-        $this->_fmsDepartment = $fmsDepartment;
-        $this->_birthCertificateSerial = $birthCertificateSerial;
-        $this->_birthCertificateNumber = $birthCertificateNumber;
-        $this->_registryOffice = $registryOffice;
-        $this->_regionId = $regionId;
-        $this->_regionName = $regionName;
-        $this->_districtId = $districtId;
-        $this->_districtName = $districtName;
-        $this->_localityId = $localityId;
-        $this->_localityName = $localityName;
-        $this->_streetId = $streetId;
-        $this->_streetName = $streetName;
-        $this->_houseNumber = $houseNumber;
-        $this->_apartment = $apartment;
-        $this->_workplace = $workplace;
-        $this->_profession = $profession;
-        $this->_notation = $notation;
+
+    public function __get($name){
+        if (property_exists($this, $property ='_'.$name)){
+            return $this->$property;
+        }
+        //throw
+    }
+
+    public function __set($name, $value){
+        if (property_exists($this, $property ='_'.$name)){
+            $this->$property = $value;
+        }
     }
 
     public function jsonSerialize()
@@ -148,6 +92,7 @@ class Card implements \JsonSerializable
             'LocalityName' => $this->_localityName,
             'StreetId' => $this->_streetId,
             'StreetName' => $this->_streetName,
+            'HouseNumber' => $this->_houseNumber,
             'Apartment' => $this->_apartment,
             'Workplace' => $this->_workplace,
             'Profession' => $this->_profession,

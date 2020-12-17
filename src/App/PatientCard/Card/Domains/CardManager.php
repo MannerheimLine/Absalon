@@ -4,11 +4,44 @@ declare(strict_types=1);
 
 namespace Absalon\Application\PatientCard\Card\Domains;
 
+use Absalon\Engine\DataStructures\TransferContainers\HttpResultContainer;
+
+/**
+ *
+ * Class CardManager
+ * @package Absalon\Application\PatientCard\Card\Domains
+ */
 class CardManager
 {
-    public function createCard(){
-        $card = new Card(1, 'Иванов', 'Юрий', 1234567887654321, 12345678911);
-        return $card;
+    private ICardDataProvider $dataProvider;
+
+    public function __construct(ICardDataProvider $dataProvider){
+        $this->dataProvider = $dataProvider;
+    }
+
+    public function get(string $id) : HttpResultContainer
+    {
+        return new HttpResultContainer($this->dataProvider->get($id), 200);
+    }
+
+    public function update(int $id) : int {
+
+    }
+
+    public function create(CardCreateDTO $cardCreateDTO){
+
+    }
+
+    public function delete(int $id){
+
+    }
+
+    public function block(int $id){
+
+    }
+
+    public function unblock(int $id){
+
     }
 
 }

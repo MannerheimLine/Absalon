@@ -27,8 +27,8 @@ class CardGetAction implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $card = $this->_cardManager->createCard();
-        $response = $this->_responder->respond($request, $card);
+        $result = $this->_cardManager->get($request->getAttribute('id'));
+        $response = $this->_responder->respond($request, $result);
         return $response;
     }
 }

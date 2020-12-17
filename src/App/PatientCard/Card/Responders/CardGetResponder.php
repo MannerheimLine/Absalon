@@ -16,7 +16,7 @@ class CardGetResponder
      */
     public function respond(ServerRequestInterface $request, $payload = null): Response
     {
-        return new Response\JsonResponse($payload); //JSON
+        return new Response\JsonResponse($payload->body, $payload->status); //JSON
     }
 
 }
