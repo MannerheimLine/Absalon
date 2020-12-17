@@ -6,13 +6,15 @@ namespace Absalon\Application\PatientCard\Card\Domains;
 
 class CardFactory
 {
-    public static function create(array $data) : Card
+    public static function create(array|bool $data) : Card
     {
         $card = new Card();
-        $card->id = $data['cardId'];
-        unset($data['cardId']);
-        foreach ($data as $name => $value){
-            $card->$name = $value;
+        if($data){
+            $card->id = $data['cardId'];
+            unset($data['cardId']);
+            foreach ($data as $name => $value){
+                $card->$name = $value;
+            }
         }
         return $card;
     }

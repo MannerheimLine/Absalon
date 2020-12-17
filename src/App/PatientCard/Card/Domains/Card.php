@@ -4,6 +4,9 @@ declare(strict_types = 1);
 
 namespace Absalon\Application\PatientCard\Card\Domains;
 
+use Absalon\Engine\Exceptions\UnknownPropertyException;
+use Vulpix\Engine\Core\Infrastructure\Exceptions\UnknownActionException;
+
 /**
  * Карта пациента
  *
@@ -13,52 +16,64 @@ namespace Absalon\Application\PatientCard\Card\Domains;
 class Card implements \JsonSerializable
 {
     #region PHP STORM REGION: PROPERTIES
-    private string $_id;                            // [!!!] id карты в БД
-    private int $_cardNumber;                       // [!!!] номер карты в картотеке, не уникален ввиду рукожопости персонала
-    private string $_surname;                       // [!!!] фамилия
-    private string $_firstName;                     // [!!!] имя
-    private string|null $_secondName;               // отчество
-    private int $_gender;                           // [!!!] 1-м, 2-ж
-    private string $_dateBirth;                     // [!!!] дата рождения
-    private string|null $_phone;                    // номер телефона
-    private string|null $_email;                    // адрес электронной почты
-    private string $_policyNumber;                  // [!!!] номер полиса
-    private int|null $_insuranceCompanyId;          // id страховой компании, для поиска в клиенте
-    private string|null $_insuranceCompanyName;     // имя страховой компании для отображения
-    private string $_insuranceCertificate;          // [!!!] СНИЛС
-    private string|null $_passportSerial;              // серия  паспорта
-                                                    // должен делать првоерку что оно int, перед вставкой в БД конвертить в стринг
-    private string|null $_passportNumber;              // номер паспорта
-    private string|null $_fmsDepartment;            // отдел УФМС выдавший паспорт
-    private string|null $_birthCertificateSerial;   // серия свидетельства о рождении
-                                                    // III-AB одна римская цифра, тире, две русских буквы
-    private string|null $_birthCertificateNumber;      // номер сертифката, 6 цифр
-    private string|null $_registryOffice;           // отдел ЗАГС выдавший свидетельство
-    private int|null $_regionId;                    // id региона
-    private string|null $_regionName;               // название региона
-    private int|null $_districtId;                  // id района
-    private string|null $_districtName;             // название района
-    private int|null $_localityId;                  // id населенного пункта
-    private string|null $_localityName;             // название населенного пункта
-    private int|null $_streetId;                    // id улицы
-    private string|null $_streetName;               // название улицы
-    private string|null $_houseNumber;              // номер дома, может быть с содержанием буквы, 45B
-    private string|null $_apartment;                   // номер квартиры
-    private string|null $_workplace;                // место работы, заносится от руки
-    private string|null $_profession;               // профессия
-    private string|null $_notation;                 // любой комментарий
+    private string|null $_id = null;                       // [!!!] id карты в БД
+    private int|null $_cardNumber = null;                  // [!!!] номер карты в картотеке, не уникален ввиду рукожопости персонала
+    private string|null $_surname = null;                  // [!!!] фамилия
+    private string|null $_firstName = null;                // [!!!] имя
+    private string|null $_secondName = null;               // отчество
+    private int|null $_gender = null;                      // [!!!] 1-м, 2-ж
+    private string|null $_dateBirth = null;                // [!!!] дата рождения
+    private string|null $_phone = null;                    // номер телефона
+    private string|null $_email = null;                    // адрес электронной почты
+    private string|null $_policyNumber = null;             // [!!!] номер полиса
+    private int|null $_insuranceCompanyId = null;          // id страховой компании, для поиска в клиенте
+    private string|null $_insuranceCompanyName = null;     // имя страховой компании для отображения
+    private string|null $_insuranceCertificate = null;     // [!!!] СНИЛС
+    private string|null $_passportSerial = null;           // серия  паспорта
+                                                           // должен делать првоерку что оно int, перед вставкой в БД конвертить в стринг
+    private string|null $_passportNumber = null;           // номер паспорта
+    private string|null $_fmsDepartment = null;            // отдел УФМС выдавший паспорт
+    private string|null $_birthCertificateSerial = null;   // серия свидетельства о рождении
+                                                           // III-AB одна римская цифра, тире, две русских буквы
+    private string|null $_birthCertificateNumber = null;   // номер сертифката, 6 цифр
+    private string|null $_registryOffice = null;           // отдел ЗАГС выдавший свидетельство
+    private int|null $_regionId = null;                    // id региона
+    private string|null $_regionName = null;               // название региона
+    private int|null $_districtId = null;                  // id района
+    private string|null $_districtName = null;             // название района
+    private int|null $_localityId = null;                  // id населенного пункта
+    private string|null $_localityName = null;             // название населенного пункта
+    private int|null $_streetId = null;                    // id улицы
+    private string|null $_streetName = null;               // название улицы
+    private string|null $_houseNumber = null;              // номер дома, может быть с содержанием буквы, 45B
+    private string|null $_apartment = null;                // номер квартиры
+    private string|null $_workplace = null;                // место работы, заносится от руки
+    private string|null $_profession = null;               // профессия
+    private string|null $_notation = null;                 // любой комментарий
     #endregion
 
+    /**
+     * @param $name
+     * @return mixed
+     * @throws UnknownPropertyException
+     */
     public function __get($name){
         if (property_exists($this, $property ='_'.$name)){
             return $this->$property;
         }
-        //throw
+        throw new UnknownPropertyException("Свойство ".$property." не найдено в классе ".get_class($this));
     }
 
+    /**
+     * @param $name
+     * @param $value
+     * @throws UnknownPropertyException
+     */
     public function __set($name, $value){
         if (property_exists($this, $property ='_'.$name)){
             $this->$property = $value;
+        }else{
+            throw new UnknownPropertyException("Свойство ".$property." не найдено в классе ".get_class($this));
         }
     }
 

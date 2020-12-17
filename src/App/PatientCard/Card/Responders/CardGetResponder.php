@@ -16,6 +16,9 @@ class CardGetResponder
      */
     public function respond(ServerRequestInterface $request, $payload = null): Response
     {
+        if (!$payload->body->id){
+            return new Response\JsonResponse('Карта с идентификатором '.$request->getAttribute('id'). ' не найдена на сервере', 404);
+        }
         return new Response\JsonResponse($payload->body, $payload->status); //JSON
     }
 
