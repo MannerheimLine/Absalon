@@ -13,22 +13,27 @@ use Absalon\Engine\DataStructures\TransferContainers\HttpResultContainer;
  */
 class CardManager
 {
-    private ICardDataProvider $dataProvider;
+    private ICardDataProvider $_dataProvider;
 
     public function __construct(ICardDataProvider $dataProvider){
-        $this->dataProvider = $dataProvider;
+        $this->_dataProvider = $dataProvider;
     }
 
     public function get(string $id) : HttpResultContainer
     {
-        return new HttpResultContainer($this->dataProvider->get($id), 200);
+        $card = CardFactory::create($this->_dataProvider->get($id));
+        if ($card->id !== null){
+            return new HttpResultContainer($card, 200);
+        }
+        return new HttpResultContainer('Карта с идентификатором '.$id. ' не найдена на сервере', 404);
+    }
+
+    public function create(CardCreateDTO $cardCreateDTO): HttpResultContainer
+    {
+        return new HttpResultContainer($this->_dataProvider->create($cardCreateDTO), 201);
     }
 
     public function update(int $id) : int {
-
-    }
-
-    public function create(CardCreateDTO $cardCreateDTO){
 
     }
 

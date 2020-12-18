@@ -6,4 +6,6 @@ interface ICardDataProvider
 {
     public function get(string $id) : array;
 
+    public function create(CardCreateDTO $dto) : string;
+
 }

@@ -53,4 +53,26 @@ class CardMySQLDataProvider implements ICardDataProvider
         $result->execute(['id' => $id]);
         return $result->fetch() ?: [];
     }
+
+    public function create(CardCreateDTO $dto): string
+    {
+        $query = ("INSERT INTO `patient_cards` (`id`, `card_number`, `surname`, `first_name`, `gender`, `date_birth`, 
+                   `policy_number`, `insurance_certificate`)
+                   
+                   VALUES (:cardId, :cardNumber, :surname, :firstName, :gender, :dateBirth, :policyNumber, 
+                   :insuranceCertificate)");
+        $result = $this->_connection->prepare($query);
+
+        $result->execute([
+            'cardId' => $dto->cardId,
+            'cardNumber' => $dto->cardNumber,
+            'surname' => $dto->surname,
+            'firstName' => $dto->firstName,
+            'gender' => $dto->gender,
+            'dateBirth' => $dto->dateBirth,
+            'policyNumber' => $dto->policyNumber,
+            'insuranceCertificate' => $dto->insuranceCertificate
+        ]);
+        return $dto->cardId;
+    }
 }
