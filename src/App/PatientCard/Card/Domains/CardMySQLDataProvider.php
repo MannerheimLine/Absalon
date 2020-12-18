@@ -29,7 +29,7 @@ class CardMySQLDataProvider implements ICardDataProvider
      * @param string $id
      * @return Card
      */
-    public function get(string $id) : Card
+    public function get(string $id) : array
     {
         $query = ("SELECT `patient_cards`.`id` AS `cardId`, `card_number` AS `cardNumber`, `surname` AS `surname`, 
                 `first_name` AS `firstName`, `second_name` AS `secondName`, `gender`, `date_birth` AS `dateBirth`,
@@ -51,6 +51,6 @@ class CardMySQLDataProvider implements ICardDataProvider
                 WHERE `patient_cards`.`id` = :id");
         $result = $this->_connection->prepare($query);
         $result->execute(['id' => $id]);
-        return CardFactory::create($result->fetch());
+        return $result->fetch() ?: [];
     }
 }

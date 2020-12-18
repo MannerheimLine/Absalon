@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace Absalon\Application\PatientCard\Card\Domains;
 
 use Absalon\Engine\Exceptions\UnknownPropertyException;
-use Vulpix\Engine\Core\Infrastructure\Exceptions\UnknownActionException;
 
 /**
  * Карта пациента
