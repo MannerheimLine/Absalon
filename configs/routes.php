@@ -10,3 +10,4 @@
 $app->get('card.get', '/cards/{id}', \Absalon\Application\PatientCard\Card\Actions\CardGetAction::class)->tokens(['id' => '[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}']);
 $app->post('card.create', '/cards', \Absalon\Application\PatientCard\Card\Actions\CardCreateAction::class);
 $app->put('card.update', '/cards', \Absalon\Application\PatientCard\Card\Actions\CardUpdateAction::class);
+$app->delete('card.delete', '/cards', \Absalon\Application\PatientCard\Card\Actions\CardDeleteAction::class);

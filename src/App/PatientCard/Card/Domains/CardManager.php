@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Absalon\Application\PatientCard\Card\Domains;
 
 use Absalon\Engine\DataStructures\TransferContainers\HttpResultContainer;
+use Absalon\Engine\Utility\Converter\Converter;
+use Vulpix\Engine\Core\Utility\Sanitizer\Sanitizer;
 
 /**
  *
@@ -38,8 +40,14 @@ class CardManager
         return new HttpResultContainer($this->_dataProvider->update($card), 200);
     }
 
-    public function delete(int $id){
-
+    public function delete(array $ids) : HttpResultContainer
+    {
+        $ids = Sanitizer::sanitize($ids);
+        $ids = Converter::arrayToQuotedString($ids);
+        if ($this->_dataProvider->delete($ids)){
+            return new HttpResultContainer($this->_dataProvider->delete($ids),204);
+        }
+        return new HttpResultContainer("Данные отсутствуют",404);
     }
 
     public function block(int $id){

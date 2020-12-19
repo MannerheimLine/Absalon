@@ -79,7 +79,7 @@ class Card implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'Id' => $this->_cardId,
+            'CardId' => $this->_cardId,
             'CardNumber' => $this->_cardNumber,
             'Surname' => $this->_surname,
             'FirstName' => $this->_firstName,

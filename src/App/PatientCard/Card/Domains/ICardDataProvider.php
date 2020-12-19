@@ -10,4 +10,6 @@ interface ICardDataProvider
 
     public function update(Card $card) : bool;
 
+    public function delete(string $ids) : bool;
+
 }

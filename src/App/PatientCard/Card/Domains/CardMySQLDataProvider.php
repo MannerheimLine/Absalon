@@ -139,4 +139,12 @@ class CardMySQLDataProvider implements ICardDataProvider
         ]);
 
     }
+
+    public function delete(string $ids): bool
+    {
+        $query = ("DELETE FROM `patient_cards` WHERE `id` IN ($ids)");
+        $result = $this->_connection->prepare($query);
+        $result->execute();
+        return $result->rowCount() > 0 ?: false;
+    }
 }
