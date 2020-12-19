@@ -10,8 +10,6 @@ class CardFactory
     {
         $card = new Card();
         if($data){
-            $card->id = $data['cardId'];
-            unset($data['cardId']);
             foreach ($data as $name => $value){
                 $card->$name = $value;
             }
