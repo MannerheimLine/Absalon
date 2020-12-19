@@ -22,7 +22,7 @@ class CardManager
     public function get(string $id) : HttpResultContainer
     {
         $card = CardFactory::create($this->_dataProvider->get($id));
-        if ($card->id !== null){
+        if ($card->cardId !== null){
             return new HttpResultContainer($card, 200);
         }
         return new HttpResultContainer('Карта с идентификатором '.$id. ' не найдена на сервере', 404);
@@ -30,11 +30,12 @@ class CardManager
 
     public function create(CardCreateDTO $cardCreateDTO): HttpResultContainer
     {
-        return new HttpResultContainer($this->_dataProvider->create($cardCreateDTO), 201);
+        return new HttpResultContainer(['id' => $this->_dataProvider->create($cardCreateDTO)], 201);
     }
 
-    public function update(int $id) : int {
-
+    public function update(Card $card) : HttpResultContainer
+    {
+        return new HttpResultContainer($this->_dataProvider->update($card), 200);
     }
 
     public function delete(int $id){

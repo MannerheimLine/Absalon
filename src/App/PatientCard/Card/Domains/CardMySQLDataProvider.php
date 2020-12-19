@@ -33,7 +33,7 @@ class CardMySQLDataProvider implements ICardDataProvider
     {
         $query = ("SELECT `patient_cards`.`id` AS `cardId`, `card_number` AS `cardNumber`, `surname` AS `surname`, 
                 `first_name` AS `firstName`, `second_name` AS `secondName`, `gender`, `date_birth` AS `dateBirth`,
-                `phone`, `email`, `policy_number` AS `policyNumber`, `insurance_company_id` AS `insuranceCompanyId`,
+                `phone_number` AS `phoneNumber`, `email`, `policy_number` AS `policyNumber`, `insurance_company_id` AS `insuranceCompanyId`,
                 `insurance_company_name` AS `insuranceCompanyName`, `insurance_certificate` AS `insuranceCertificate`,
                 `passport_serial` AS `passportSerial`, `passport_number` AS `passportNumber`, `fms_department` AS `fmsDepartment`,
                 `birth_certificate_serial` AS `birthCertificateSerial`, `birth_certificate_number` AS `birthCertificateNumber`,
@@ -74,5 +74,69 @@ class CardMySQLDataProvider implements ICardDataProvider
             'insuranceCertificate' => $dto->insuranceCertificate
         ]);
         return $dto->cardId;
+    }
+
+    public function update(Card $card) : bool
+    {
+        $query = ("UPDATE `patient_cards` 
+                   SET 
+                       `card_number` = :cardNumber,
+                       `surname` = :surname,
+                       `first_name` = :firstName,
+                       `second_name` = :secondName,
+                       `gender` = :gender,
+                       `date_birth` = :dateBirth,
+                       `phone_number` = :phoneNumber,
+                       `email` = :email,
+                       `policy_number` = :policyNumber,
+                       `insurance_company_id` = :insuranceCompanyId,
+                       `insurance_certificate` = :insuranceCertificate,
+                       `passport_serial` =:passportSerial,
+                       `passport_number` =:passportNumber,
+                       `fms_department` =:fmsDepartment,
+                       `birth_certificate_serial` = :birthCertificateSerial,
+                       `birth_certificate_number` = :birthCertificateNumber,
+                       `registry_office` = :registryOffice,
+                       `region_id` = :regionId,
+                       `district_id` = :districtId,
+                       `locality_id` = :localityId,
+                       `street_id` = :streetId,
+                       `house_number` = :houseNumber,
+                       `apartment` = :apartment,
+                       `workplace` = :workplace,
+                       `profession` = :profession,
+                       `notation` = :notation       
+                   WHERE `id` = :cardId");
+        $result = $this->_connection->prepare($query);
+        return $result->execute([
+            'cardId' => $card->cardId,
+            'cardNumber' => $card->cardNumber,
+            'surname' => $card->surname,
+            'firstName' => $card->firstName,
+            'secondName' => $card->secondName,
+            'gender' => $card->gender,
+            'dateBirth' => $card->dateBirth,
+            'phoneNumber' => $card->phoneNumber,
+            'email' => $card->email,
+            'policyNumber' => $card->policyNumber,
+            'insuranceCompanyId' => $card->insuranceCompanyId,
+            'insuranceCertificate' => $card->insuranceCertificate,
+            'passportSerial' => $card->passportSerial,
+            'passportNumber' => $card->passportNumber,
+            'fmsDepartment' => $card->fmsDepartment,
+            'birthCertificateSerial' => $card->birthCertificateSerial,
+            'birthCertificateNumber' => $card->birthCertificateNumber,
+            'registryOffice' => $card->registryOffice,
+            'regionId' => $card->regionId,
+            'districtId' => $card->districtId,
+            'localityId' => $card->localityId,
+            'streetId' => $card->streetId,
+            'houseNumber' => $card->houseNumber,
+            'apartment' => $card->apartment,
+            'workplace' => $card->workplace,
+            'profession' => $card->profession,
+            'notation' => $card->notation
+        ]);
+
     }
 }

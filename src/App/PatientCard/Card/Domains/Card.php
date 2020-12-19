@@ -15,14 +15,14 @@ use Absalon\Engine\Exceptions\UnknownPropertyException;
 class Card implements \JsonSerializable
 {
     #region PHP STORM REGION: PROPERTIES
-    private string|null $_id = null;                       // [!!!] id карты в БД
+    private string|null $_cardId = null;                       // [!!!] id карты в БД
     private int|null $_cardNumber = null;                  // [!!!] номер карты в картотеке, не уникален ввиду рукожопости персонала
     private string|null $_surname = null;                  // [!!!] фамилия
     private string|null $_firstName = null;                // [!!!] имя
     private string|null $_secondName = null;               // отчество
     private int|null $_gender = null;                      // [!!!] 1-м, 2-ж
     private string|null $_dateBirth = null;                // [!!!] дата рождения
-    private string|null $_phone = null;                    // номер телефона
+    private string|null $_phoneNumber = null;                    // номер телефона
     private string|null $_email = null;                    // адрес электронной почты
     private string|null $_policyNumber = null;             // [!!!] номер полиса
     private int|null $_insuranceCompanyId = null;          // id страховой компании, для поиска в клиенте
@@ -69,7 +69,7 @@ class Card implements \JsonSerializable
      * @throws UnknownPropertyException
      */
     public function __set($name, $value){
-        if (property_exists($this, $property ='_'.$name)){
+        if (property_exists($this, $property ='_'.lcfirst($name))){
             $this->$property = $value;
         }else{
             throw new UnknownPropertyException("Свойство ".$property." не найдено в классе ".get_class($this));
@@ -79,14 +79,14 @@ class Card implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'Id' => $this->_id,
+            'Id' => $this->_cardId,
             'CardNumber' => $this->_cardNumber,
             'Surname' => $this->_surname,
             'FirstName' => $this->_firstName,
             'SecondName' => $this->_secondName,
             'Gender' => $this->_gender,
             'DateBirth' => $this->_dateBirth,
-            'PhoneNumber' => $this->_phone,
+            'PhoneNumber' => $this->_phoneNumber,
             'Email' => $this->_email,
             'PolicyNumber' => $this->_policyNumber,
             'InsuranceCompanyId' => $this->_insuranceCompanyId,

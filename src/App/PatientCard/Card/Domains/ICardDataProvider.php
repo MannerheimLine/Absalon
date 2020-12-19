@@ -8,4 +8,6 @@ interface ICardDataProvider
 
     public function create(CardCreateDTO $dto) : string;
 
+    public function update(Card $card) : bool;
+
 }
