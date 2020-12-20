@@ -8,9 +8,8 @@ use Absalon\Application\PatientCard\Card\Domains\CardManager;
 use Absalon\Application\PatientCard\Card\Responders\CardCreateResponder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 
-class CardCreateAction implements RequestHandlerInterface
+class CardCreateAction
 {
     private CardManager $_cardManager;
     private CardCreateResponder $_responder;
@@ -25,7 +24,7 @@ class CardCreateAction implements RequestHandlerInterface
      *
      * May call other collaborating code to generate the response.
      */
-    public function handle(ServerRequestInterface $request): ResponseInterface
+    public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
         $result = $this->_cardManager->create($request->getAttribute('DTO'));
         $response = $this->_responder->respond($request, $result);

@@ -20,12 +20,13 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-pdo": "*",
+        "f16inkin/vulpix": "^1.0",
         "firebase/php-jwt": "^5.2",
         "laminas/laminas-diactoros": "^2.2",
         "laminas/laminas-httphandlerrunner": "^1.1",
+        "league/route": "^4.5",
         "php-di/php-di": "^6.0",
-        "ramsey/uuid": "^4.0",
-        "f16inkin/vulpix": "^1.0"
+        "ramsey/uuid": "^4.0"
     },
     "autoload": {
         "psr-4": {

@@ -1,8 +1,8 @@
 <?php
 
+use Absalon\Engine\Core\Infrastructure\ApplicationFactory;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
-use Vulpix\Engine\Core\Infrastructure\ApplicationFactory;
 
 #Автозагрузка
 chdir(dirname(__DIR__));
@@ -12,13 +12,12 @@ require "vendor/autoload.php";
 require "configs/container.php";
 $app = ApplicationFactory::create($container);
 
-#Загрузка Middleware
-require "configs/pipeline.php";
+#Загрузка
 require "configs/routes.php";
 
 #Запуск приложения
 $request = ServerRequestFactory::fromGlobals();
-$response = $app->handle($request);
+$response = $app->run($request);
 
 #Отправка клиенту
 $emitter = new SapiEmitter();

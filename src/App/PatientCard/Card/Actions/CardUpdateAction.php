@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class CardUpdateAction implements RequestHandlerInterface
+class CardUpdateAction
 {
     private CardManager $_cardManager;
     private CardUpdateResponder $_responder;
@@ -25,7 +25,7 @@ class CardUpdateAction implements RequestHandlerInterface
      *
      * May call other collaborating code to generate the response.
      */
-    public function handle(ServerRequestInterface $request): ResponseInterface
+    public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
         $result = $this->_cardManager->update($request->getAttribute('DTO'));
         $response = $this->_responder->respond($request, $result);

@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class CardGetAction implements RequestHandlerInterface
+class CardGetAction
 {
     private CardManager $_cardManager;
     private CardGetResponder $_responder;
@@ -25,7 +25,7 @@ class CardGetAction implements RequestHandlerInterface
      *
      * May call other collaborating code to generate the response.
      */
-    public function handle(ServerRequestInterface $request): ResponseInterface
+    public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
         $result = $this->_cardManager->get($request->getAttribute('id'));
         $response = $this->_responder->respond($request, $result);
