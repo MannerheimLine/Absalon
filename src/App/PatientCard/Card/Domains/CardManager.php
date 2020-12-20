@@ -37,25 +37,19 @@ class CardManager
 
     public function update(Card $card) : HttpResultContainer
     {
-        return new HttpResultContainer($this->_dataProvider->update($card), 200);
+        if ($result = $this->_dataProvider->update($card)){
+            return new HttpResultContainer($result, 200);
+        }
+        return new HttpResultContainer("Карта с id ".$card->cardId." не найдена",404);
     }
 
     public function delete(array $ids) : HttpResultContainer
     {
         $ids = Sanitizer::sanitize($ids);
         $ids = Converter::arrayToQuotedString($ids);
-        if ($this->_dataProvider->delete($ids)){
-            return new HttpResultContainer($this->_dataProvider->delete($ids),204);
+        if ($result = $this->_dataProvider->delete($ids)){
+            return new HttpResultContainer($result,204);
         }
         return new HttpResultContainer("Данные отсутствуют",404);
     }
-
-    public function block(int $id){
-
-    }
-
-    public function unblock(int $id){
-
-    }
-
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Absalon\Application\PatientCard\Card\Domains;
 
+use DateTime;
 use PDO;
 use Vulpix\Engine\Database\Connectors\IConnector;
 
@@ -105,10 +106,11 @@ class CardMySQLDataProvider implements ICardDataProvider
                        `apartment` = :apartment,
                        `workplace` = :workplace,
                        `profession` = :profession,
-                       `notation` = :notation       
+                       `notation` = :notation,
+                       `last_update` = :last_update
                    WHERE `id` = :cardId");
         $result = $this->_connection->prepare($query);
-        return $result->execute([
+        $result->execute([
             'cardId' => $card->cardId,
             'cardNumber' => $card->cardNumber,
             'surname' => $card->surname,
@@ -135,9 +137,10 @@ class CardMySQLDataProvider implements ICardDataProvider
             'apartment' => $card->apartment,
             'workplace' => $card->workplace,
             'profession' => $card->profession,
-            'notation' => $card->notation
+            'notation' => $card->notation,
+            'last_update' => (new DateTime())->format('Y-m-d H:i:s')
         ]);
-
+        return $result->rowCount() > 0 ?: false;
     }
 
     public function delete(string $ids): bool
