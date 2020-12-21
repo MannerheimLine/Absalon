@@ -23,11 +23,9 @@ class CardUpdateMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if ($request->getMethod() === 'PUT'){
-            #Если карта отсуствует в БД, добавляю ее
-            $dto = CardFactory::create($request->getAttribute('ValidatedFields'));
-            $request = $request->withAttribute('DTO', $dto);
-        }
+        #Если карта отсуствует в БД, добавляю ее
+        $dto = CardFactory::create($request->getAttribute('ValidatedFields'));
+        $request = $request->withAttribute('DTO', $dto);
         return $response = $handler->handle($request);
     }
 }

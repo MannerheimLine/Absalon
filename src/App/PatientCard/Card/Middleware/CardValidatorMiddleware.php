@@ -58,16 +58,14 @@ class CardValidatorMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if ($request->getMethod() === 'POST' || $request->getMethod() === 'PUT') {
-            #Валидирую поля на то, что они заполнены
-            $this->validateRequiredFields();
-            if (!empty($this->_emptyFields)) {
-                return new JsonResponse($this->_emptyFields, 200);
-            }
-            #Очищаю поля по RegEx
-            $this->sanitizeIncomingFields();
-            $request = $request->withAttribute('ValidatedFields', $this->_incomingFields);
+        #Валидирую поля на то, что они заполнены
+        $this->validateRequiredFields();
+        if (!empty($this->_emptyFields)) {
+            return new JsonResponse($this->_emptyFields, 200);
         }
+        #Очищаю поля по RegEx
+        $this->sanitizeIncomingFields();
+        $request = $request->withAttribute('ValidatedFields', $this->_incomingFields);
         return $response = $handler->handle($request);
     }
 }

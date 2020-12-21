@@ -45,18 +45,16 @@ class CardCreateMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if ($request->getMethod() === 'POST'){
-            #Проверка карты на уникальность
-            $validatedFields = $request->getAttribute('ValidatedFields');
-            $policyNumber = $validatedFields['PolicyNumber'];
-            $insuranceCertificate = $validatedFields['InsuranceCertificate'];
-            if($id = $this->isCardExist($policyNumber, $insuranceCertificate)){
-                return new JsonResponse($id, 302);
-            }
-            #Если карта отсуствует в БД, добавляю ее
-            $dto = new CardCreateDTO($validatedFields);
-            $request = $request->withAttribute('DTO', $dto);
+        #Проверка карты на уникальность
+        $validatedFields = $request->getAttribute('ValidatedFields');
+        $policyNumber = $validatedFields['PolicyNumber'];
+        $insuranceCertificate = $validatedFields['InsuranceCertificate'];
+        if($id = $this->isCardExist($policyNumber, $insuranceCertificate)){
+            return new JsonResponse($id, 302);
         }
+        #Если карта отсуствует в БД, добавляю ее
+        $dto = new CardCreateDTO($validatedFields);
+        $request = $request->withAttribute('DTO', $dto);
         return $response = $handler->handle($request);
     }
 }

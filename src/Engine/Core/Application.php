@@ -15,7 +15,6 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class Application
 {
-    private $_container;
     private $_router;
 
     public function __construct(Router $router){
@@ -49,6 +48,11 @@ class Application
     public function put(string $path, string $handler) : RouteDecorator
     {
         return new RouteDecorator($this->_router->put($path, $handler));
+    }
+
+    public function patch(string $path, string $handler) : RouteDecorator
+    {
+        return new RouteDecorator($this->_router->patch($path, $handler));
     }
 
     public function delete(string $path, string $handler) : RouteDecorator
