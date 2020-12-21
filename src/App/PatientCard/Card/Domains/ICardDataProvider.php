@@ -12,4 +12,8 @@ interface ICardDataProvider
 
     public function delete(string $ids) : bool;
 
+    public function block(string $cardId, string $accountId) : bool;
+
+    public function unblock(string $cardId) : bool;
+
 }

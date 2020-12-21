@@ -52,4 +52,16 @@ class CardManager
         }
         return new HttpResultContainer("Данные отсутствуют",404);
     }
+
+    public function block(string $cardId, string $accountId) : HttpResultContainer
+    {
+        $result = $this->_dataProvider->block($cardId, $accountId);
+        return new HttpResultContainer($result, 200);
+
+    }
+
+    public function unblock(string $cardId){
+        $result = $this->_dataProvider->unblock($cardId);
+        return new HttpResultContainer($result, 200);
+    }
 }

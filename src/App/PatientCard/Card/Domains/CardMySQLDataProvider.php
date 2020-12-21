@@ -150,4 +150,28 @@ class CardMySQLDataProvider implements ICardDataProvider
         $result->execute();
         return $result->rowCount() > 0 ?: false;
     }
+
+    public function block(string $cardId, string $accountId) : bool
+    {
+        $query = ("UPDATE `patient_cards` 
+                   SET `owner` = :accountId, `blocked_at` = :blockedAt 
+                   WHERE `id` = :cardId");
+        $result = $this->_connection->prepare($query);
+        $result->execute([
+            'cardId' => $cardId,
+            'accountId' => $accountId,
+            'blockedAt' => (new DateTime())->format('Y-m-d H:i')
+        ]);
+        return $result->rowCount() > 0 ?: false;
+    }
+
+    public function unblock(string $cardId) : bool
+    {
+        $query = ("UPDATE `patient_cards` 
+                   SET `owner` = NULL , `blocked_at` = NULL 
+                   WHERE `id` = :cardId");
+        $result = $this->_connection->prepare($query);
+        $result->execute(['cardId' => $cardId]);
+        return $result->rowCount() > 0 ?: false;
+    }
 }

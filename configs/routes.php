@@ -26,10 +26,10 @@ $app
     ->post('/api/v1/cards', \Absalon\Application\PatientCard\Card\Actions\CardCreateAction::class)
     ->lazyMiddleware(['validator', 'card-create']);
 $app
-    ->post('/api/v1/cards/block', \Absalon\Application\PatientCard\Card\Actions\CardBlockAction::class);
-$app
     ->put('/api/v1/cards', \Absalon\Application\PatientCard\Card\Actions\CardUpdateAction::class)
     ->lazyMiddleware(['validator', 'card-update']);
+$app
+    ->patch('/api/v1/cards', \Absalon\Application\PatientCard\Card\Actions\CardSwitchAction::class);
 $app
     ->delete('/api/v1/cards', \Absalon\Application\PatientCard\Card\Actions\CardDeleteAction::class);
 
