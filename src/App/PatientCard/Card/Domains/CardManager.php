@@ -60,7 +60,8 @@ class CardManager
 
     }
 
-    public function unblock(string $cardId){
+    public function unblock(string $cardId) :HttpResultContainer
+    {
         $result = $this->_dataProvider->unblock($cardId);
         return new HttpResultContainer($result, 200);
     }
