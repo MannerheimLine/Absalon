@@ -1,0 +1,80 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Absalon\Application\PatientCard\Search\Domains;
+
+use Vulpix\Engine\Database\Connectors\IConnector;
+
+/**
+ * Повторяющиееся и почти схожие методы для поиска диспозиций, сделаны лишь для чистоты
+ *
+ * Class SearchMySQLDataProvider
+ * @package Absalon\Application\PatientCard\Search\Domains
+ */
+class SearchMySQLDataProvider implements ISearchDataProvider
+{
+    private \PDO $_connection;
+
+    /**
+     * SearchMySQLDataProvider constructor.
+     * @param IConnector $connector
+     */
+    public function __construct(IConnector $connector){
+        $this->_connection = $connector::getConnection();
+    }
+
+    /**
+     * @param string $word
+     * @param int $page
+     * @param int $offset
+     * @return array
+     */
+    public function getCards(string $word, int $page, int $offset) : array
+    {
+        $query = ("SELECT `id` AS `cardId`, `card_number` AS `cardNumber`, `surname`, `first_name` AS `firstName`, 
+                   `second_name` AS `secondName`, `policy_number` AS `policyNumber`, 
+                   `insurance_certificate` AS `insuranceCertificate`
+                   FROM `patient_cards`
+                   WHERE `policy_number` LIKE '%$word%' OR CONCAT(`surname`, ' ', `first_name`) 
+                   LIKE '%$word%'");
+        $result = $this->_connection->prepare($query);
+        $result->execute();
+        if ($result->rowCount() > 0){
+            return Paginator::paginate($result->fetchAll(), $page, $offset);
+        }
+        return [];
+    }
+
+    public function getRegions(string $word, int $limit) : array
+    {
+        $query =("SELECT * FROM `regions` WHERE `region_name` LIKE '%$word%' LIMIT :limit");
+        $result = $this->_connection->prepare($query);
+        $result->execute(['limit' => $limit]);
+        return $result->fetchAll() ?: [];
+    }
+
+    public function getDistricts(string $word, int $limit) : array
+    {
+        $query =("SELECT * FROM `districts` WHERE `district_name` LIKE '%$word%' LIMIT :limit");
+        $result = $this->_connection->prepare($query);
+        $result->execute(['limit' => $limit]);
+        return $result->fetchAll() ?: [];
+    }
+
+    public function getLocalities(string $word, int $limit) : array
+    {
+        $query =("SELECT * FROM `localities` WHERE `locality_name` LIKE '%$word%' LIMIT :limit");
+        $result = $this->_connection->prepare($query);
+        $result->execute(['limit' => $limit]);
+        return $result->fetchAll() ?: [];
+    }
+
+    public function getStreets(string $word, int $limit) : array
+    {
+        $query =("SELECT * FROM `streets` WHERE `street_name` LIKE '%$word%' LIMIT :limit");
+        $result = $this->_connection->prepare($query);
+        $result->execute(['limit' => $limit]);
+        return $result->fetchAll() ?: [];
+    }
+}

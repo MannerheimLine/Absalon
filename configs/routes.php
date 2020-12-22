@@ -15,7 +15,7 @@
  *      })->lazyMiddleware('validator');
  */
 
-#APP MIDDLEWARE
+#App Middleware
 $app->pipe('profiler');
 $app->pipe('memory-usage');
 
@@ -24,15 +24,32 @@ $app
     ->get('/api/v1/cards/{id:uuid}', \Absalon\Application\PatientCard\Card\Actions\CardGetAction::class);
 $app
     ->post('/api/v1/cards', \Absalon\Application\PatientCard\Card\Actions\CardCreateAction::class)
-    ->lazyMiddleware(['validator', 'card-create']);
+    ->lazyMiddleware(['card-fields-validator', 'card-create']);
 $app
     ->put('/api/v1/cards', \Absalon\Application\PatientCard\Card\Actions\CardUpdateAction::class)
-    ->lazyMiddleware(['validator', 'card-update']);
+    ->lazyMiddleware(['card-fields-validator', 'card-update']);
 $app
     ->patch('/api/v1/cards', \Absalon\Application\PatientCard\Card\Actions\CardSwitchAction::class);
 $app
     ->delete('/api/v1/cards', \Absalon\Application\PatientCard\Card\Actions\CardDeleteAction::class);
 
+#Cards Search
+$app
+    ->post('/api/v1/search/cards', \Absalon\Application\PatientCard\Search\Actions\SearchCardsAction::class)
+    ->lazyMiddleware('search-string-validator');
 
+#Dispositions Search
+$app
+    ->post('/api/v1/search/regions', \Absalon\Application\PatientCard\Search\Actions\SearchRegionsAction::class)
+    ->lazyMiddleware('search-string-validator');
+$app
+    ->post('/api/v1/search/districts', \Absalon\Application\PatientCard\Search\Actions\SearchDistrictsAction::class)
+    ->lazyMiddleware('search-string-validator');
+$app
+    ->post('/api/v1/search/localities', \Absalon\Application\PatientCard\Search\Actions\SearchLocalitiesAction::class)
+    ->lazyMiddleware('search-string-validator');
+$app
+    ->post('/api/v1/search/streets', \Absalon\Application\PatientCard\Search\Actions\SearchStreetsAction::class)
+    ->lazyMiddleware('search-string-validator');
 
 
