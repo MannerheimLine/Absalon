@@ -40,16 +40,20 @@ $app
 
 #Dispositions Search
 $app
-    ->post('/api/v1/search/regions', \Absalon\Application\PatientCard\Search\Actions\SearchRegionsAction::class)
+    ->get('/api/v1/search/regions', \Absalon\Application\PatientCard\Search\Actions\SearchRegionsAction::class)
     ->lazyMiddleware('search-string-validator');
 $app
-    ->post('/api/v1/search/districts', \Absalon\Application\PatientCard\Search\Actions\SearchDistrictsAction::class)
+    ->get('/api/v1/search/districts', \Absalon\Application\PatientCard\Search\Actions\SearchDistrictsAction::class)
     ->lazyMiddleware('search-string-validator');
 $app
-    ->post('/api/v1/search/localities', \Absalon\Application\PatientCard\Search\Actions\SearchLocalitiesAction::class)
+    ->get('/api/v1/search/localities', \Absalon\Application\PatientCard\Search\Actions\SearchLocalitiesAction::class)
     ->lazyMiddleware('search-string-validator');
 $app
-    ->post('/api/v1/search/streets', \Absalon\Application\PatientCard\Search\Actions\SearchStreetsAction::class)
+    ->get('/api/v1/search/streets', \Absalon\Application\PatientCard\Search\Actions\SearchStreetsAction::class)
     ->lazyMiddleware('search-string-validator');
+
+#Talons
+$app
+    ->get('/api/v1/talons/{id:uuid}', \Absalon\Application\Talons\Actions\TalonShowAction::class);
 
 
