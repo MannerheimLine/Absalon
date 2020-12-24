@@ -1,0 +1,16 @@
+.talon-line{
+    font-size: 11px;
+}
+.talon-table {
+    margin-top: 5px;
+    font-size: 11px;
+    width: 100%;
+    border-collapse: separate; border-spacing: 2px;
+}
+.talon-table td, th {
+    border: 1px solid;
+}
+#talon-footer{
+    width: 100%;
+    text-align: center;
+}
