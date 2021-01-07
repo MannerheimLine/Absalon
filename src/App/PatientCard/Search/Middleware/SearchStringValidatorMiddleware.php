@@ -21,7 +21,10 @@ class SearchStringValidatorMiddleware implements MiddlewareInterface
 
     public function sanitize(array $data){
         foreach ($data as $key => $value){
-            if (is_string($value)){
+            if(ctype_digit($value)) {
+                $this->_validatedFields[$key] = (int)$value;
+            }
+            elseif (is_string($value)){
                 $this->_validatedFields[$key] = $this->sanitizeToString($value);
             }else{
                 $this->_validatedFields[$key] = $value;
@@ -38,7 +41,8 @@ class SearchStringValidatorMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $this->sanitize(json_decode(file_get_contents("php://input"),true));
+        parse_str(parse_url($_SERVER['REQUEST_URI'])['query'], $output);
+        $this->sanitize($output);
         $request = $request->withAttribute('ValidatedData', $this->_validatedFields);
         return $response = $handler->handle($request);
     }
