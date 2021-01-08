@@ -15,14 +15,16 @@ use Absalon\Engine\Exceptions\UnknownPropertyException;
 class Card implements \JsonSerializable
 {
     #region PHP STORM REGION: PROPERTIES
-    private string|null $_cardId = null;                       // [!!!] id карты в БД
+    private string|null $_cardId = null;                   // [!!!] id карты в БД
     private int|null $_cardNumber = null;                  // [!!!] номер карты в картотеке, не уникален ввиду рукожопости персонала
     private string|null $_surname = null;                  // [!!!] фамилия
     private string|null $_firstName = null;                // [!!!] имя
     private string|null $_secondName = null;               // отчество
     private int|null $_gender = null;                      // [!!!] 1-м, 2-ж
     private string|null $_dateBirth = null;                // [!!!] дата рождения
-    private string|null $_phoneNumber = null;                    // номер телефона
+    private string|null $_dateDeath = null;                // дата смерти
+    private int|null $_isAlive = null;                     // статус жизни: 1- жив, 2 - мертв
+    private string|null $_phoneNumber = null;              // номер телефона
     private string|null $_email = null;                    // адрес электронной почты
     private string|null $_policyNumber = null;             // [!!!] номер полиса
     private int|null $_insuranceCompanyId = null;          // id страховой компании, для поиска в клиенте
@@ -31,10 +33,12 @@ class Card implements \JsonSerializable
     private string|null $_passportSerial = null;           // серия  паспорта
                                                            // должен делать првоерку что оно int, перед вставкой в БД конвертить в стринг
     private string|null $_passportNumber = null;           // номер паспорта
+    private string|null $_passportDateOfIssue = null;           // номер паспорта
     private string|null $_fmsDepartment = null;            // отдел УФМС выдавший паспорт
     private string|null $_birthCertificateSerial = null;   // серия свидетельства о рождении
                                                            // III-AB одна римская цифра, тире, две русских буквы
     private string|null $_birthCertificateNumber = null;   // номер сертифката, 6 цифр
+    private string|null $_birthCertificateDateOfIssue = null;   // номер сертифката, 6 цифр
     private string|null $_registryOffice = null;           // отдел ЗАГС выдавший свидетельство
     private int|null $_regionId = null;                    // id региона
     private string|null $_regionName = null;               // название региона
@@ -49,6 +53,7 @@ class Card implements \JsonSerializable
     private string|null $_workplace = null;                // место работы, заносится от руки
     private string|null $_profession = null;               // профессия
     private string|null $_notation = null;                 // любой комментарий
+    private string|null $_owner = null;                    // пользователь редактирующий текущую карту
     #endregion
 
     /**
@@ -86,6 +91,8 @@ class Card implements \JsonSerializable
             'SecondName' => $this->_secondName,
             'Gender' => $this->_gender,
             'DateBirth' => $this->_dateBirth,
+            'DateDeath' => $this->_dateDeath,
+            'IsAlive' => $this->_isAlive,
             'PhoneNumber' => $this->_phoneNumber,
             'Email' => $this->_email,
             'PolicyNumber' => $this->_policyNumber,
@@ -94,9 +101,11 @@ class Card implements \JsonSerializable
             'InsuranceCertificate' => $this->_insuranceCertificate,
             'PassportSerial' => $this->_passportSerial,
             'PassportNumber' => $this->_passportNumber,
+            'PassportDateOfIssue' => $this->_passportDateOfIssue,
             'FmsDepartment' => $this->_fmsDepartment,
             'BirthCertificateSerial' => $this->_birthCertificateSerial,
             'BirthCertificateNumber' => $this->_birthCertificateNumber,
+            'BirthCertificateDateOfIssue' => $this->_birthCertificateDateOfIssue,
             'RegistryOffice' => $this->_registryOffice,
             'RegionId' => $this->_regionId,
             'RegionName' => $this->_regionName,
@@ -110,7 +119,8 @@ class Card implements \JsonSerializable
             'Apartment' => $this->_apartment,
             'Workplace' => $this->_workplace,
             'Profession' => $this->_profession,
-            'Notation' => $this->_notation
+            'Notation' => $this->_notation,
+            'Owner' => $this->_owner
         ];
     }
 }

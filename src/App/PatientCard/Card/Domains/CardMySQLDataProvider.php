@@ -34,15 +34,18 @@ class CardMySQLDataProvider implements ICardDataProvider
     {
         $query = ("SELECT `patient_cards`.`id` AS `cardId`, `card_number` AS `cardNumber`, `surname` AS `surname`, 
                 `first_name` AS `firstName`, `second_name` AS `secondName`, `gender`, `date_birth` AS `dateBirth`,
-                `phone_number` AS `phoneNumber`, `email`, `policy_number` AS `policyNumber`, `insurance_company_id` AS `insuranceCompanyId`,
+                `date_death` AS `dateDeath`, `is_alive` AS `isAlive`, `phone_number` AS `phoneNumber`, `email`, 
+                `policy_number` AS `policyNumber`, `insurance_company_id` AS `insuranceCompanyId`,
                 `insurance_company_name` AS `insuranceCompanyName`, `insurance_certificate` AS `insuranceCertificate`,
-                `passport_serial` AS `passportSerial`, `passport_number` AS `passportNumber`, `fms_department` AS `fmsDepartment`,
-                `birth_certificate_serial` AS `birthCertificateSerial`, `birth_certificate_number` AS `birthCertificateNumber`,
-                `registry_office` AS `registryOffice`, `region_id` AS `regionId`, `region_name` AS `regionName`,
-                `district_id` AS `districtId`, `district_name` AS `districtName`, `locality_id` AS `localityId`,
-                `locality_name` AS `localityName`, `street_id` AS `streetId`, `street_name` AS `streetName`,
+                `passport_serial` AS `passportSerial`, `passport_number` AS `passportNumber`, 
+                `passport_date_of_issue` AS `passportDateOfIssue`, `birth_certificate_date_of_issue` AS `birthCertificateDateOfIssue`,
+                `fms_department` AS `fmsDepartment`, `birth_certificate_serial` AS `birthCertificateSerial`, 
+                `birth_certificate_number` AS `birthCertificateNumber`, `registry_office` AS `registryOffice`, 
+                `region_id` AS `regionId`, `region_name` AS `regionName`, `district_id` AS `districtId`, `district_name` AS `districtName`, 
+                `locality_id` AS `localityId`, `locality_name` AS `localityName`, `street_id` AS `streetId`, `street_name` AS `streetName`,
                 `house_number` AS `houseNumber`, `apartment`, `workplace`, `profession`, `notation`,
-                `insurance_company_id` AS `insuranceCompanyId`, `insurance_company_name` AS `insuranceCompanyName`
+                `insurance_company_id` AS `insuranceCompanyId`, `insurance_company_name` AS `insuranceCompanyName`,
+                `owner` AS `owner`
                 FROM `patient_cards`
                 LEFT JOIN `regions` ON `patient_cards`.`region_id` = `regions`.`id` 
                 LEFT JOIN `districts` ON `patient_cards`.`district_id` = `districts`.`id` 
