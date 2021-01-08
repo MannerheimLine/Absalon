@@ -35,7 +35,7 @@ $app
 
 #Cards Search
 $app
-    ->post('/api/v1/search/cards', \Absalon\Application\PatientCard\Search\Actions\SearchCardsAction::class)
+    ->get('/api/v1/search/cards', \Absalon\Application\PatientCard\Search\Actions\SearchCardsAction::class)
     ->lazyMiddleware('search-string-validator');
 
 #Dispositions Search

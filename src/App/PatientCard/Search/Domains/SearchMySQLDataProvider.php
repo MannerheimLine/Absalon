@@ -51,7 +51,14 @@ class SearchMySQLDataProvider implements ISearchDataProvider
         $query =("SELECT * FROM `regions` WHERE `region_name` LIKE '%$word%' LIMIT :limit");
         $result = $this->_connection->prepare($query);
         $result->execute(['limit' => $limit]);
-        return $result->fetchAll() ?: [];
+        $i = 0;
+        $regions = [];
+        while ($row = $result->fetch()){
+            $regions[$i]['RegionId'] = $row['id'];
+            $regions[$i]['RegionName'] = $row['region_name'];
+            $i++;
+        }
+        return $regions;
     }
 
     public function getDistricts(string $word, int $limit) : array
@@ -59,7 +66,14 @@ class SearchMySQLDataProvider implements ISearchDataProvider
         $query =("SELECT * FROM `districts` WHERE `district_name` LIKE '%$word%' LIMIT :limit");
         $result = $this->_connection->prepare($query);
         $result->execute(['limit' => $limit]);
-        return $result->fetchAll() ?: [];
+        $i = 0;
+        $districts = [];
+        while ($row = $result->fetch()){
+            $districts[$i]['DistrictId'] = $row['id'];
+            $districts[$i]['DistrictName'] = $row['district_name'];
+            $i++;
+        }
+        return $districts;
     }
 
     public function getLocalities(string $word, int $limit) : array
@@ -67,7 +81,14 @@ class SearchMySQLDataProvider implements ISearchDataProvider
         $query =("SELECT * FROM `localities` WHERE `locality_name` LIKE '%$word%' LIMIT :limit");
         $result = $this->_connection->prepare($query);
         $result->execute(['limit' => $limit]);
-        return $result->fetchAll() ?: [];
+        $i = 0;
+        $localities = [];
+        while ($row = $result->fetch()){
+            $localities[$i]['LocalityId'] = $row['id'];
+            $localities[$i]['LocalityName'] = $row['locality_name'];
+            $i++;
+        }
+        return $localities;
     }
 
     public function getStreets(string $word, int $limit) : array
@@ -75,6 +96,13 @@ class SearchMySQLDataProvider implements ISearchDataProvider
         $query =("SELECT * FROM `streets` WHERE `street_name` LIKE '%$word%' LIMIT :limit");
         $result = $this->_connection->prepare($query);
         $result->execute(['limit' => $limit]);
-        return $result->fetchAll() ?: [];
+        $i = 0;
+        $streets = [];
+        while ($row = $result->fetch()){
+            $streets[$i]['StreetId'] = $row['id'];
+            $streets[$i]['StreetName'] = $row['street_name'];
+            $i++;
+        }
+        return $streets;
     }
 }
