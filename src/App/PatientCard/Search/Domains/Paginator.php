@@ -21,7 +21,8 @@ class Paginator
     public static function paginate(array $cards, int $page, int $offset) : array
     {
         $start = $page*$offset - $offset;
-        $pagesCount = (int) ceil(count($cards)/$offset);
+        $cardsCount = count($cards);
+        $pagesCount = (int) ceil($cardsCount/$offset);
         $paginatedCards = array_slice($cards, $start, $offset);
         /**
          * Проверка на первую и последнюю страницу
@@ -38,6 +39,7 @@ class Paginator
             $pageOrder = 'Middle';
         }
         $paginatedData['Cards'] = $paginatedCards;
+        $paginatedData['CardsCount'] =$cardsCount;
         $paginatedData['PagesCount'] = $pagesCount;
         $paginatedData['PageOrder'] = $pageOrder;
         return $paginatedData;
