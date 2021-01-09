@@ -37,10 +37,14 @@ class CardManager
 
     public function update(Card $card) : HttpResultContainer
     {
-        if ($result = $this->_dataProvider->update($card)){
-            return new HttpResultContainer($result, 200);
+        try {
+            if ($result = $this->_dataProvider->update($card)){
+                return new HttpResultContainer($result, 200);
+            }
+            return new HttpResultContainer("Карта с id ".$card->cardId." не найдена",404);
+        }catch (\Exception $e){
+            return new HttpResultContainer($e->getMessage(), 500);
         }
-        return new HttpResultContainer("Карта с id ".$card->cardId." не найдена",404);
     }
 
     public function delete(array $ids) : HttpResultContainer

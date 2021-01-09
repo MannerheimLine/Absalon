@@ -66,7 +66,6 @@ class CardMySQLDataProvider implements ICardDataProvider
                    VALUES (:cardId, :cardNumber, :surname, :firstName, :gender, :dateBirth, :policyNumber, 
                    :insuranceCertificate)");
         $result = $this->_connection->prepare($query);
-
         $result->execute([
             'cardId' => $dto->cardId,
             'cardNumber' => $dto->cardNumber,
@@ -95,11 +94,13 @@ class CardMySQLDataProvider implements ICardDataProvider
                        `policy_number` = :policyNumber,
                        `insurance_company_id` = :insuranceCompanyId,
                        `insurance_certificate` = :insuranceCertificate,
-                       `passport_serial` =:passportSerial,
-                       `passport_number` =:passportNumber,
+                       `passport_serial` = :passportSerial,
+                       `passport_number` = :passportNumber,
+                       `passport_date_of_issue` = :passportDateOfIssue,
                        `fms_department` =:fmsDepartment,
                        `birth_certificate_serial` = :birthCertificateSerial,
                        `birth_certificate_number` = :birthCertificateNumber,
+                       `birth_certificate_date_of_issue` = :birthCertificateDateOfIssue,
                        `registry_office` = :registryOffice,
                        `region_id` = :regionId,
                        `district_id` = :districtId,
@@ -128,9 +129,11 @@ class CardMySQLDataProvider implements ICardDataProvider
             'insuranceCertificate' => $card->insuranceCertificate,
             'passportSerial' => $card->passportSerial,
             'passportNumber' => $card->passportNumber,
+            'passportDateOfIssue' => $card->passportDateOfIssue,
             'fmsDepartment' => $card->fmsDepartment,
             'birthCertificateSerial' => $card->birthCertificateSerial,
             'birthCertificateNumber' => $card->birthCertificateNumber,
+            'birthCertificateDateOfIssue' => $card->birthCertificateDateOfIssue,
             'registryOffice' => $card->registryOffice,
             'regionId' => $card->regionId,
             'districtId' => $card->districtId,
