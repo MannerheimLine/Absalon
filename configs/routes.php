@@ -52,6 +52,11 @@ $app
     ->get('/api/v1/search/streets', \Absalon\Application\PatientCard\Search\Actions\SearchStreetsAction::class)
     ->lazyMiddleware('search-string-validator');
 
+#Insurance Companies Search
+$app
+    ->get('/api/v1/search/insurance-companies', \Absalon\Application\PatientCard\Search\Actions\SearchInsuranceCompaniesAction::class)
+    ->lazyMiddleware('search-string-validator');
+
 #Talons
 $app
     ->get('/api/v1/talons/{id:uuid}', \Absalon\Application\Talons\Actions\TalonShowAction::class);

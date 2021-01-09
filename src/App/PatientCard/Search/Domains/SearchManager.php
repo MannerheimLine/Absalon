@@ -54,4 +54,12 @@ class SearchManager
         return new HttpResultContainer('Улица не найдена', 404);
     }
 
+    public function getInsuranceCompanies(string $searchString, int $limit) : HttpResultContainer
+    {
+        if (!empty($result = $this->_dataProvider->getInsuranceCompanies($searchString, $limit))){
+            return new HttpResultContainer($result, 200);
+        }
+        return new HttpResultContainer('Компания не найдена', 404);
+    }
+
 }

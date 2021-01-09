@@ -105,4 +105,19 @@ class SearchMySQLDataProvider implements ISearchDataProvider
         }
         return $streets;
     }
+
+    public function getInsuranceCompanies(string $word, int $limit) : array
+    {
+        $query =("SELECT * FROM `insurance_companies` WHERE `insurance_company_name` LIKE '%$word%' LIMIT :limit");
+        $result = $this->_connection->prepare($query);
+        $result->execute(['limit' => $limit]);
+        $i = 0;
+        $streets = [];
+        while ($row = $result->fetch()){
+            $streets[$i]['InsuranceCompanyId'] = $row['id'];
+            $streets[$i]['InsuranceCompanyName'] = $row['insurance_company_name'];
+            $i++;
+        }
+        return $streets;
+    }
 }
