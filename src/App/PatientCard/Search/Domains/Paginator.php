@@ -38,8 +38,8 @@ class Paginator
             $pageOrder = 'Middle';
         }
         $paginatedData['Cards'] = $paginatedCards;
-        $paginatedCards['PagesCount'] = $pagesCount;
-        $paginatedCards['pageOrder'] = $pageOrder;
-        return $paginatedCards;
+        $paginatedData['PagesCount'] = $pagesCount;
+        $paginatedData['PageOrder'] = $pageOrder;
+        return $paginatedData;
     }
 }
