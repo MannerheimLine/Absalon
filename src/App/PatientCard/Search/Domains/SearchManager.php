@@ -19,7 +19,7 @@ class SearchManager
         if (!empty($result = $this->_dataProvider->getCards($searchString, $page, $offset))){
             return new HttpResultContainer($result, 200);
         }
-        return new HttpResultContainer('Карта(ы) не найдены', 404);
+        return new HttpResultContainer('Карта(ы) не найдены', 204);
     }
 
     public function getRegions(string $searchString, int $limit) : HttpResultContainer
