@@ -12,8 +12,8 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class CardValidatorMiddleware implements MiddlewareInterface
 {
-    private $_incomingFields;
-    private $_requiredFields = [
+    private array $_incomingFields;
+    private array $_requiredFields = [
         'Номер' => 'CardNumber',
         'Фамилия' => 'Surname',
         'Имя' => 'FirstName',
@@ -21,7 +21,7 @@ class CardValidatorMiddleware implements MiddlewareInterface
         'Номер полиса' => 'PolicyNumber',
         'СНИЛС' => 'InsuranceCertificate'
     ];
-    private $_emptyFields = [];
+    private array $_emptyFields = [];
 
     public function __construct(){
         $this->_incomingFields = json_decode(file_get_contents("php://input"),true) ?: [];
