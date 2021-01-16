@@ -15,7 +15,7 @@ class JWTPayload implements \JsonSerializable
     private int $_notBefore;
     private int $_issuedAt;
     private string $_jwtId;
-    private string $_accountId = '';
+    private string $_accountId;
     private array $_accountPermissions = [];
     private array $_talons = [];
 
