@@ -61,4 +61,9 @@ $app
 $app
     ->get('/api/v1/talons/{id:uuid}', \Absalon\Application\Talons\Actions\TalonShowAction::class);
 
+#Authentication
+$app->get('/api/v1/auth/doAuth', \Absalon\Engine\AAIS\Actions\AuthenticateAction::class)
+    ->lazyMiddleware('credentials-validator');
+$app->get('/api/v1/auth/doRefresh', \Absalon\Engine\AAIS\Actions\RefreshAction::class);
+
 
