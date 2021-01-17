@@ -103,4 +103,24 @@ class TokensService
         return $token;
     }
 
+    public function validateRefreshToken(string $token) : string|bool
+    {
+        /**
+         * 1 - найти токен в БД
+         * - если токена нет в БД для данного пользователя, то отправить ответ со ссылкой на аутентификацию
+         * - если токен есть, то проверить его время годности
+         * -- если время годности закончено, то отправить ответ со ссылкой на аутентификацию
+         * -- если время годности не закончено то:
+         * 2 - создать пару из аксес и рефрешь токена и отправить их в ответ
+         */
+        if ($result = $this->_dataProvider->getToken($token)){
+            $currentTime = time();
+            if ($currentTime < $result['expires']){
+                return $result['accountId'];
+            }
+            return false;
+        }
+        return false;
+    }
+
 }

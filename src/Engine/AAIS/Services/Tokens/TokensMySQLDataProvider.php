@@ -16,6 +16,15 @@ class TokensMySQLDataProvider implements ITokensDataProvider
         $this->_connection = $connector::getConnection();
     }
 
+    public function getToken(string $token) : array
+    {
+        $query = ("SELECT `account_id` AS `accountId`, `refresh_token` AS `refreshToken`, `created`, `expires`
+                   FROM `refresh_tokens` WHERE `refresh_token` = :refreshToken ");
+        $result = $this->_connection->prepare($query);
+        $result->execute(['refreshToken' => $token]);
+        return $result->fetch() ?: [];
+    }
+
     public function insertToken(string $token, string $accountId): void
     {
         $query = ("INSERT INTO `refresh_tokens` (`account_id`, `refresh_token`, `created`, `expires`)

@@ -13,6 +13,12 @@ class AccountManager
         $this->_dataProvider = $dataProvider;
     }
 
+    public function getAccountById(string $accountId) : Account
+    {
+        $accountData = $this->_dataProvider->getAccountDataById($accountId);
+        return AccountFactory::create($accountData);
+    }
+
     public function getAccountByUserName(string $userName) : Account
     {
         $accountData = $this->_dataProvider->getAccountDataByUserName($userName);

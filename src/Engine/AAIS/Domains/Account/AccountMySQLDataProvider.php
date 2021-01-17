@@ -19,6 +19,16 @@ class AccountMySQLDataProvider implements IAccountDataProvider
         $this->_connection = $connector::getConnection();
     }
 
+    public function getAccountDataById(string $accountId) : array
+    {
+        $query = ("SELECT `id` AS `accountId`, `user_name` AS `userName`, `password_hash` AS `passwordHash`,
+                   `secret_key` AS `secretKey`, `email`, `created`, `updated` 
+                   FROM `user_accounts` WHERE `id` =:accountId");
+        $result = $this->_connection->prepare($query);
+        $result->execute(['accountId' => $accountId]);
+        return $result->fetch() ?: [];
+    }
+
     public function getAccountDataByUserName(string $userName) : array
     {
         $query = ("SELECT `id` AS `accountId`, `user_name` AS `userName`, `password_hash` AS `passwordHash`,
