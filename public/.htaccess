@@ -1,5 +1,6 @@
 AddDefaultCharset utf-8
 RewriteEngine on
+Header set Access-Control-Allow-Headers "*"
 Header set Access-Control-Allow-Origin "*"
 Header set Access-Control-Allow-Methods "PUT, PATCH, DELETE"
 RewriteCond %{REQUEST_FILENAME} !-f
