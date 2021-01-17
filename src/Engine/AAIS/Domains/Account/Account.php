@@ -22,6 +22,7 @@ class Account
         }
         throw new UnknownPropertyException("Свойство ".$property." не найдено в классе ".get_class($this));
     }
+
     public function __set($name, $value){
         if (property_exists($this, $property ='_'.($name))){
             $this->$property = $value;

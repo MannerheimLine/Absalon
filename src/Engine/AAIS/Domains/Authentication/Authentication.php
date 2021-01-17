@@ -18,6 +18,7 @@ class Authentication
         $this->_manager = $manager;
         $this->_tokensService = $tokensService;
     }
+
     public function authenticate(Credentials $credentials) : HttpResultContainer
     {
         $account = $this->_manager->getAccountByUserName($credentials->userName);
