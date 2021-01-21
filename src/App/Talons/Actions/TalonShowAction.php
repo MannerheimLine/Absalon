@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Absalon\Application\Talons\Actions;
 
 use Absalon\Application\Talons\Domains\Talon;
-use Absalon\Application\Talons\Domains\TalonFactory;
 use Laminas\Diactoros\Response\JsonResponse;;
 use Psr\Http\Message\ServerRequestInterface;
 

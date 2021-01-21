@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Absalon\Engine\AAIS\Services\Tokens;
+namespace Absalon\Engine\AAIS\Domains\Tokens;
 
 use PDO;
 use Vulpix\Engine\Database\Connectors\IConnector;

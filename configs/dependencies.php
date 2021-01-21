@@ -10,5 +10,5 @@ return $dependencies = [
     #Account Data Provider
     \Absalon\Engine\AAIS\Domains\Account\IAccountDataProvider::class => DI\create(\Absalon\Engine\AAIS\Domains\Account\AccountMySQLDataProvider::class)->constructor(DI\get(\Vulpix\Engine\Database\Connectors\IConnector::class)),
     #Tokens Data Provider
-    \Absalon\Engine\AAIS\Services\Tokens\ITokensDataProvider::class => DI\create(\Absalon\Engine\AAIS\Services\Tokens\TokensMySQLDataProvider::class)->constructor(DI\get(\Vulpix\Engine\Database\Connectors\IConnector::class))
+    \Absalon\Engine\AAIS\Domains\Tokens\ITokensDataProvider::class => DI\create(\Absalon\Engine\AAIS\Domains\Tokens\TokensMySQLDataProvider::class)->constructor(DI\get(\Vulpix\Engine\Database\Connectors\IConnector::class))
 ];

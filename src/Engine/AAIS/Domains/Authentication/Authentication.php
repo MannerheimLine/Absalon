@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Absalon\Engine\AAIS\Domains\Authentication;
 
 use Absalon\Engine\AAIS\Domains\Account\AccountManager;
-use Absalon\Engine\AAIS\Services\Tokens\TokensService;
+use Absalon\Engine\AAIS\Domains\Tokens\TokensService;
 use Absalon\Engine\DataStructures\TransferContainers\HttpResultContainer;
 
 class Authentication
