@@ -62,7 +62,7 @@ $app
 
 #Talons
 $app
-    ->get('/api/v1/talons/{id:uuid}', \Absalon\Application\Talons\Actions\TalonShowAction::class)
+    ->get('/api/v1/talons/{talon:word}/{id:uuid}', \Absalon\Application\Talons\Actions\TalonShowAction::class)
     ->lazyMiddleware('auth');
 
 #Authentication

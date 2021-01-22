@@ -5,24 +5,25 @@ declare(strict_types=1);
 namespace Absalon\Application\Talons\Actions;
 
 use Absalon\Application\Talons\Domains\Talon;
-use Laminas\Diactoros\Response\JsonResponse;;
+use Absalon\Application\Talons\Responders\TalonShowResponder;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class TalonShowAction
 {
-    private $_talon;
+    private Talon $_talon;
+    private TalonShowResponder $_responder;
 
-    public function __construct(Talon $talon){
+    public function __construct(Talon $talon, TalonShowResponder $responder){
         $this->_talon = $talon;
+        $this->_responder = $responder;
     }
-    public function __invoke(ServerRequestInterface $request) : mixed
+
+    public function __invoke(ServerRequestInterface $request) : ResponseInterface
     {
-        $incomingData = json_decode(file_get_contents("php://input"),true) ?: [];
+        $incomingData = ['cardId'=>$request->getAttribute('id'), 'talon'=>$request->getAttribute('talon')];
         $result = $this->_talon->init($incomingData)->makePdf();
-        if ($result->status === 200){
-            $result->body->Output('Talon.pdf', 'I');
-        }else{
-            return new JsonResponse($result->body, $result->status);
-        }
+        $response = $this->_responder->respond($request, $result);
+        return $response;
     }
 }
