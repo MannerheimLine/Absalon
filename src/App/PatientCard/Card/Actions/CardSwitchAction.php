@@ -27,7 +27,7 @@ class CardSwitchAction
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
         $cardId = json_decode(file_get_contents("php://input"),true)['cardId'] ?: [];
-        $accountId = 'a69f726c-2677-4bc4-820c-dfd03fff9b3f';//($request->getAttribute('User'))->id;
+        $accountId = ($request->getAttribute('AccountId'));
         if ($request->getHeader('Switch-Card')[0] === 'on'){
             $result = $this->_cardManager->block($cardId, $accountId);
         }else{
