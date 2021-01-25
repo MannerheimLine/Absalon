@@ -13,21 +13,28 @@ class SearchStringValidatorMiddleware implements MiddlewareInterface
 {
     private $_validatedFields;
 
-    private function sanitizeToString(string $string) : string
+    private function sanitizeFullName(string $string) : string
     {
         $convertedString = mb_convert_encoding($string, "utf-8");
         return preg_replace ("/[^a-zA-ZА-Яа-я0-9\s-]/ui","", $convertedString);
     }
 
+    private function sanitizeDocuments(string $string) : string
+    {
+        $convertedString = mb_convert_encoding($string, "utf-8");
+        return preg_replace ("/[^0-9]/ui","", $convertedString);
+    }
+
     public function sanitize(array $data){
         foreach ($data as $key => $value){
-            if(ctype_digit($value)) {
+            if(ctype_digit($value) && $key !== 'searchString') {
                 $this->_validatedFields[$key] = (int)$value;
             }
-            elseif (is_string($value)){
-                $this->_validatedFields[$key] = $this->sanitizeToString($value);
-            }else{
-                $this->_validatedFields[$key] = $value;
+            elseif(preg_match("/[\d]+/", $value)) {
+                $this->_validatedFields[$key] = $this->sanitizeDocuments($value);
+            }
+            else{
+                $this->_validatedFields[$key] = $this->sanitizeFullName($value);
             }
         }
     }

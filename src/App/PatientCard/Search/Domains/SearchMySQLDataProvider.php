@@ -36,7 +36,7 @@ class SearchMySQLDataProvider implements ISearchDataProvider
                    `second_name` AS `secondName`, `policy_number` AS `policyNumber`, 
                    `insurance_certificate` AS `insuranceCertificate`
                    FROM `patient_cards`
-                   WHERE `policy_number` LIKE '%$word%' OR CONCAT(`surname`, ' ', `first_name`) 
+                   WHERE `policy_number` LIKE '%$word%' OR `insurance_certificate` LIKE '%$word%' OR CONCAT(`surname`, ' ', `first_name`) 
                    LIKE '%$word%'");
         $result = $this->_connection->prepare($query);
         $result->execute();
