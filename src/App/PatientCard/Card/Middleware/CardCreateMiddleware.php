@@ -20,7 +20,7 @@ class CardCreateMiddleware implements MiddlewareInterface
         $this->_connection = $connector::getConnection();
     }
 
-    private function isCardExist(int $policyNumber, string $insuranceCertificate) : array|bool
+    private function isCardExist(string $policyNumber, string $insuranceCertificate) : array|bool
     {
         $query = ("SELECT `id` 
                    FROM `patient_cards` 

@@ -25,7 +25,7 @@ class CardCreateDTO
     private string $_firstName;
     private int $_gender;
     private string $_dateBirth;
-    private int $_policyNumber;
+    private string $_policyNumber;
     private string $_insuranceCertificate;
 
     public function __construct(array $data){
