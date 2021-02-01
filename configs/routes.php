@@ -71,4 +71,8 @@ $app->get('/api/v1/auth/doAuth', \Absalon\Engine\AAIS\Actions\AuthenticateAction
 $app->get('/api/v1/auth/doRefresh', \Absalon\Engine\AAIS\Actions\RefreshAction::class)
     ->lazyMiddleware('refresh-token-validator');
 
+#Fluorography
+$app->get('/api/v1/fluorographies/{id:uuid}', \Absalon\Application\Fluorography\Actions\FluorographiesGetAction::class)
+    ->lazyMiddleware('auth');
+
 
