@@ -40,7 +40,8 @@ class CardValidatorMiddleware implements MiddlewareInterface
         }
     }
 
-    private function sanitizeIncomingFields(){
+    private function sanitizeIncomingFields() : void
+    {
         foreach ($this->_incomingFields as $key => $value){
             if (is_string($value)){
                 $convertedString = mb_convert_encoding($value, "utf-8");
