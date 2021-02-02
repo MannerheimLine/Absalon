@@ -28,4 +28,9 @@ class FluorographyManager
         }
         return new HttpResultContainer('Для текущей карты не найдено ниодного исследования');
     }
+
+    public function create(string $id) : HttpResultContainer
+    {
+        return new HttpResultContainer(['id' => $this->_dataProvider->create($id)], 201);
+    }
 }

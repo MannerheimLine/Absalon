@@ -8,7 +8,7 @@ interface IFluorographyDataProvider
 {
     public function getAll(string $id) : array;
 
-    public function create();
+    public function create(string $id);
 
     public function update(string $id);
 }
