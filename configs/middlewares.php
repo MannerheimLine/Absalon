@@ -9,5 +9,6 @@ return [
     'credentials-validator' => \Absalon\Engine\AAIS\Middleware\CredentialsValidatorMiddleware::class,
     'refresh-token-validator' => \Absalon\Engine\AAIS\Middleware\RefreshTokenValidatorMiddleware::class,
     'card-create' => \Absalon\Application\PatientCard\Card\Middleware\CardCreateMiddleware::class,
-    'card-update' => \Absalon\Application\PatientCard\Card\Middleware\CardUpdateMiddleware::class
+    'card-update' => \Absalon\Application\PatientCard\Card\Middleware\CardUpdateMiddleware::class,
+    'fluorography-create' => \Absalon\Application\Fluorography\Middleware\FluorographyCreateMiddleware::class
 ];

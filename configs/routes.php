@@ -74,5 +74,9 @@ $app->get('/api/v1/auth/doRefresh', \Absalon\Engine\AAIS\Actions\RefreshAction::
 #Fluorography
 $app->get('/api/v1/fluorographies/{id:uuid}', \Absalon\Application\Fluorography\Actions\FluorographiesGetAction::class)
     ->lazyMiddleware('auth');
+$app->get('/api/v1/fluorography/options', \Absalon\Application\Fluorography\Actions\FluorographyOptionsGetAction::class)
+    ->lazyMiddleware('auth');
+$app->post('/api/v1/fluorographies', \Absalon\Application\Fluorography\Actions\FluorographyCreateAction::class)
+    ->lazyMiddleware(['auth', 'fluorography-create']);
 
 

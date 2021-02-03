@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class FluorographyCreateAction
 {
     private FluorographyManager $_manager;
-    private $_responder;
+    private FluorographyCreateResponder $_responder;
 
     public function __construct(FluorographyManager $manager, FluorographyCreateResponder $responder){
         $this->_manager = $manager;
@@ -21,7 +21,9 @@ class FluorographyCreateAction
 
     public function __invoke(ServerRequestInterface $request) : ResponseInterface
     {
-
+        $result = $this->_manager->create($request->getAttribute('DTO'));
+        $response = $this->_responder->respond($request, $result);
+        return $response;
     }
 
 }

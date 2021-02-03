@@ -23,14 +23,27 @@ class FluorographyManager
         if (!empty($data)){
             foreach ($data as $record){
                 $records[$i] = FluorographyFactory::create($record);
+                $i++;
             }
             return new HttpResultContainer($records, 200);
         }
         return new HttpResultContainer('Для текущей карты не найдено ниодного исследования');
     }
 
-    public function create(string $id) : HttpResultContainer
+    public function getOptions() : HttpResultContainer
     {
-        return new HttpResultContainer(['id' => $this->_dataProvider->create($id)], 201);
+        $data = $this->_dataProvider->getOptions();
+        if (!empty($data)) {
+            return new HttpResultContainer($data, 200);
+        }
+        return new HttpResultContainer('Для текущей карты не найдено ниодного исследования');
+    }
+
+    public function create(FluorographyCreateDTO $DTO) : HttpResultContainer
+    {
+        if ($result = $this->_dataProvider->create($DTO)){
+            return new HttpResultContainer($result, 201);
+        }
+        return new HttpResultContainer('Проблема вызвана в процессе вставки записи в БД', 500);
     }
 }

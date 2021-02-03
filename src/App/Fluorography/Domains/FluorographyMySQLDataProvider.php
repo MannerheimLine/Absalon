@@ -17,7 +17,7 @@ class FluorographyMySQLDataProvider implements IFluorographyDataProvider
     public function getAll(string $id) : array
     {
         $query = ("SELECT `fluorographies`.`id` AS `fluorographyId`, `fluorographies`.`patient_card` AS `patientCardId`,
-                  `fluorographies`.`card_number` AS `patientCardNumber`, `fluorography_type` AS `fluorographyTypeId`, 
+                  `fluorography_type` AS `fluorographyTypeId`, 
                   `ft`.`description` AS `fluorographyTypeName`, `fluorography_dose` AS `fluorographyDoseId`, 
                   `fd`.`description` AS `fluorographyDoseName`,  `fluorography_result` AS `fluorographyResultId`, 
                   `fr`.`description` AS `fluorographyResultName`,  `fluorography_number` AS `fluorographyNumber`, 
@@ -35,9 +35,50 @@ class FluorographyMySQLDataProvider implements IFluorographyDataProvider
         return $result->fetchAll() ?: [];
     }
 
-    public function create()
+    public function getOptions() : array
     {
-        // TODO: Implement create() method.
+        $options = [];
+        $query = ("SELECT `fd`.`id` AS `doseId`, `fd`.`description` AS `doseName` FROM `fluorography_doses` `fd`");
+        $result = $this->_connection->prepare($query);
+        $result->execute();
+        $doses = $result->fetchAll();
+        $query = ("SELECT `fr`.`id` AS `resultId`, `fr`.`description` AS `resultName` FROM `fluorography_results` `fr`");
+        $result = $this->_connection->prepare($query);
+        $result->execute();
+        $results = $result->fetchAll();
+        $query = ("SELECT `fs`.`id` AS `senderId`, `fs`.`description` AS `senderName` FROM `fluorography_senders` `fs`");
+        $result = $this->_connection->prepare($query);
+        $result->execute();
+        $senders = $result->fetchAll();
+        $query = ("SELECT `ft`.`id` AS `typeId`, `ft`.`description` AS `typeName` FROM `fluorography_types` `ft`");
+        $result = $this->_connection->prepare($query);
+        $result->execute();
+        $types = $result->fetchAll();
+        return $options = ['doses' => $doses, 'results' =>$results, 'senders' => $senders, 'types' => $types];
+    }
+
+    public function create(FluorographyCreateDTO $DTO) : bool
+    {
+        $query = ("INSERT INTO `fluorographies` (`id`, `patient_card`, `fluorography_type`, `fluorography_dose`,
+                 `fluorography_result`, `fluorography_number`, `fluorography_snapshot`, `fluorography_date`, 
+                 `fluorography_sender`, fluorography_notation)
+                   
+                   VALUES (:fluorographyId, :patientCard, :fluorographyType, :fluorographyDose, :fluorographyResult,
+                           :fluorographyNumber, :fluorographySnapshot, :fluorographyDate, :fluorographySender, :fluorographyNotation)");
+        $result = $this->_connection->prepare($query);
+        $result->execute([
+            'fluorographyId' => $DTO->fluorographyId,
+            'patientCard' => $DTO->patientCard,
+            'fluorographyType' => $DTO->type,
+            'fluorographyDose' => $DTO->dose,
+            'fluorographyResult' => $DTO->result,
+            'fluorographyNumber' => $DTO->number,
+            'fluorographySnapshot' => $DTO->snapshot,
+            'fluorographyDate' => $DTO->date,
+            'fluorographySender' => $DTO->sender,
+            'fluorographyNotation' => $DTO->notation
+        ]);
+        return $result->rowCount() > 0 ?: false;
     }
 
     public function update(string $id)
