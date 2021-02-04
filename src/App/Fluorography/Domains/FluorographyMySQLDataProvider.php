@@ -85,4 +85,12 @@ class FluorographyMySQLDataProvider implements IFluorographyDataProvider
     {
         // TODO: Implement update() method.
     }
+
+    public function delete(string $ids) : bool
+    {
+        $query = ("DELETE FROM `fluorographies` WHERE `id` IN ($ids)");
+        $result = $this->_connection->prepare($query);
+        $result->execute();
+        return $result->rowCount() > 0 ?: false;
+    }
 }

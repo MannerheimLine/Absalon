@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Absalon\Application\Fluorography\Domains;
 
 use Absalon\Engine\DataStructures\TransferContainers\HttpResultContainer;
+use Absalon\Engine\Utility\Converter\Converter;
+use Vulpix\Engine\Core\Utility\Sanitizer\Sanitizer;
 
 class FluorographyManager
 {
@@ -45,5 +47,15 @@ class FluorographyManager
             return new HttpResultContainer($result, 201);
         }
         return new HttpResultContainer('Проблема вызвана в процессе вставки записи в БД', 500);
+    }
+
+    public function delete(array $ids) : HttpResultContainer
+    {
+        $ids = Sanitizer::sanitize($ids);
+        $ids = Converter::arrayToQuotedString($ids);
+        if ($result = $this->_dataProvider->delete($ids)){
+            return new HttpResultContainer($result,204);
+        }
+        return new HttpResultContainer("Данные отсутствуют",404);
     }
 }

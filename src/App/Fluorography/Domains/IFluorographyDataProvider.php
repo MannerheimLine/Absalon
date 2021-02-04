@@ -13,4 +13,6 @@ interface IFluorographyDataProvider
     public function create(FluorographyCreateDTO $DTO) : bool;
 
     public function update(string $id);
+
+    public function delete(string $ids) : bool;
 }
