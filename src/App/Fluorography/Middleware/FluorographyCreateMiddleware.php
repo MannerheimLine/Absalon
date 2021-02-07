@@ -13,40 +13,6 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class FluorographyCreateMiddleware implements MiddlewareInterface
 {
-    private array $_incomingFields;
-    private array $_requiredFields = [
-        'Дата' => 'Date',
-        'Тип' => 'Type',
-        'Результат' => 'Result'
-    ];
-    private array $_emptyFields = [];
-
-    public function __construct(){
-        $this->_incomingFields = json_decode(file_get_contents("php://input"),true) ?: [];
-    }
-
-    private function validateRequiredFields() : void
-    {
-        if (!empty($this->_incomingFields)) {
-            foreach ($this->_requiredFields as $key => $value) {
-                if (!isset($this->_incomingFields[$value])) {
-                    $this->_emptyFields[$key] = $value;
-                }
-            }
-        }else{
-            $this->_emptyFields = $this->_requiredFields;
-        }
-    }
-
-    private function sanitizeIncomingFields(){
-        foreach ($this->_incomingFields as $key => $value){
-            if (is_string($value)){
-                $convertedString = mb_convert_encoding($value, "utf-8");
-                $this->_incomingFields[$key] = preg_replace ("/[^a-zA-ZА-Яа-я0-9\s-]/ui","", $convertedString);
-            }
-        }
-    }
-
     /**
      * Process an incoming server request.
      *
@@ -56,12 +22,8 @@ class FluorographyCreateMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $this->validateRequiredFields();
-        if (!empty($this->_emptyFields)) {
-            return new JsonResponse($this->_emptyFields, 200);
-        }
-        $this->sanitizeIncomingFields();
-        $dto = new FluorographyCreateDTO($this->_incomingFields);
+        $validatedFields = $request->getAttribute('ValidatedFields');
+        $dto = new FluorographyCreateDTO($validatedFields);
         $request = $request->withAttribute('DTO', $dto);
         return $response = $handler->handle($request);
 
