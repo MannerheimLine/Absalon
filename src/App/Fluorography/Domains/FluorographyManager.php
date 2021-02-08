@@ -55,7 +55,7 @@ class FluorographyManager
             if ($result = $this->_dataProvider->update($fluorography)){
                 return new HttpResultContainer($result, 200);
             }
-            return new HttpResultContainer("Запись с id ".$fluorography->fluorographyId." не найдена, либо обновления не были учтены",202);
+            return new HttpResultContainer("Запись с id ".$fluorography->fluorographyId." не найдена, либо обновления не были учтены",200);
         }catch (\Exception $e){
             return new HttpResultContainer($e->getMessage(), 500);
         }

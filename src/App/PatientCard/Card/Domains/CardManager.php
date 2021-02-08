@@ -41,7 +41,7 @@ class CardManager
             if ($result = $this->_dataProvider->update($card)){
                 return new HttpResultContainer($result, 200);
             }
-            return new HttpResultContainer("Карта с id ".$card->cardId." не найдена",404);
+            return new HttpResultContainer("Карта с id ".$card->cardId." не найдена, либо не предоставлена информация для обновления",200);
         }catch (\Exception $e){
             return new HttpResultContainer($e->getMessage(), 500);
         }
