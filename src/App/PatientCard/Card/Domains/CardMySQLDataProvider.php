@@ -62,7 +62,6 @@ class CardMySQLDataProvider implements ICardDataProvider
     {
         $query = ("INSERT INTO `patient_cards` (`id`, `card_number`, `surname`, `first_name`, `gender`, `date_birth`, 
                    `policy_number`, `insurance_certificate`)
-                   
                    VALUES (:cardId, :cardNumber, :surname, :firstName, :gender, :dateBirth, :policyNumber, 
                    :insuranceCertificate)");
         $result = $this->_connection->prepare($query);
