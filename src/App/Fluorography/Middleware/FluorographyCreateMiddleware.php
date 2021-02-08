@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Absalon\Application\Fluorography\Middleware;
 
-use Absalon\Application\Fluorography\Domains\FluorographyCreateDTO;
 use Absalon\Application\Fluorography\Domains\FluorographyFactory;
-use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
