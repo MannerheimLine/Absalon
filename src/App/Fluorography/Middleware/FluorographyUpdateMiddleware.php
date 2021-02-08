@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace Absalon\Application\Fluorography\Middleware;
 
-use Absalon\Application\Fluorography\Domains\FluorographyCreateDTO;
 use Absalon\Application\Fluorography\Domains\FluorographyFactory;
-use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Ramsey\Uuid\Uuid;
 
-class FluorographyCreateMiddleware implements MiddlewareInterface
+class FluorographyUpdateMiddleware implements MiddlewareInterface
 {
     /**
      * Process an incoming server request.
@@ -24,11 +21,8 @@ class FluorographyCreateMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $validatedFields = $request->getAttribute('ValidatedFields');
-        $dto = FluorographyFactory::create($validatedFields);
-        $dto->FluorographyId = Uuid::uuid4()->toString();
+        $dto = FluorographyFactory::create($request->getAttribute('ValidatedFields'));
         $request = $request->withAttribute('DTO', $dto);
         return $response = $handler->handle($request);
-
     }
 }

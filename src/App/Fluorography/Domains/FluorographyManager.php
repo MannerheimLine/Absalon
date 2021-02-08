@@ -41,12 +41,24 @@ class FluorographyManager
         return new HttpResultContainer('Для текущей карты не найдено ниодного исследования');
     }
 
-    public function create(FluorographyCreateDTO $DTO) : HttpResultContainer
+    public function create(Fluorography $fluorography) : HttpResultContainer
     {
-        if ($result = $this->_dataProvider->create($DTO)){
+        if ($result = $this->_dataProvider->create($fluorography)){
             return new HttpResultContainer($result, 201);
         }
         return new HttpResultContainer('Проблема вызвана в процессе вставки записи в БД', 500);
+    }
+
+    public function update(Fluorography $fluorography) : HttpResultContainer
+    {
+        try {
+            if ($result = $this->_dataProvider->update($fluorography)){
+                return new HttpResultContainer($result, 200);
+            }
+            return new HttpResultContainer("Запись с id ".$fluorography->fluorographyId." не найдена",404);
+        }catch (\Exception $e){
+            return new HttpResultContainer($e->getMessage(), 500);
+        }
     }
 
     public function delete(array $ids) : HttpResultContainer

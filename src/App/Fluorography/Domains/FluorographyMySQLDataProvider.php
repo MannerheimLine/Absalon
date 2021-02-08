@@ -29,7 +29,8 @@ class FluorographyMySQLDataProvider implements IFluorographyDataProvider
                    LEFT JOIN `fluorography_results` `fr` ON `fluorographies`.`fluorography_result` = `fr`.`id`
                    LEFT JOIN `fluorography_senders` `fs` on `fluorographies`.`fluorography_sender` = `fs`.`id` 
                    LEFT JOIN `fluorography_types` `ft` on `fluorographies`.`fluorography_type` = `ft`.`id` 
-                   WHERE `patient_card` = :id");
+                   WHERE `patient_card` = :id
+                   ORDER BY fluorographyDate DESC");
         $result = $this->_connection->prepare($query);
         $result->execute(['id' => $id]);
         return $result->fetchAll() ?: [];
@@ -57,33 +58,56 @@ class FluorographyMySQLDataProvider implements IFluorographyDataProvider
         return $options = ['doses' => $doses, 'results' =>$results, 'senders' => $senders, 'types' => $types];
     }
 
-    public function create(FluorographyCreateDTO $DTO) : bool
+    public function create(Fluorography $fluorography) : bool
     {
         $query = ("INSERT INTO `fluorographies` (`id`, `patient_card`, `fluorography_type`, `fluorography_dose`,
                  `fluorography_result`, `fluorography_number`, `fluorography_snapshot`, `fluorography_date`, 
                  `fluorography_sender`, fluorography_notation)
                    
-                   VALUES (:fluorographyId, :patientCard, :fluorographyType, :fluorographyDose, :fluorographyResult,
+                   VALUES (:fluorographyId, :patientCardId, :fluorographyType, :fluorographyDose, :fluorographyResult,
                            :fluorographyNumber, :fluorographySnapshot, :fluorographyDate, :fluorographySender, :fluorographyNotation)");
         $result = $this->_connection->prepare($query);
         $result->execute([
-            'fluorographyId' => $DTO->fluorographyId,
-            'patientCard' => $DTO->patientCard,
-            'fluorographyType' => $DTO->type,
-            'fluorographyDose' => $DTO->dose,
-            'fluorographyResult' => $DTO->result,
-            'fluorographyNumber' => $DTO->number,
-            'fluorographySnapshot' => $DTO->snapshot,
-            'fluorographyDate' => $DTO->date,
-            'fluorographySender' => $DTO->sender,
-            'fluorographyNotation' => $DTO->notation
+            'fluorographyId' => $fluorography->fluorographyId,
+            'patientCardId' => $fluorography->patientCardId,
+            'fluorographyType' => $fluorography->fluorographyTypeId,
+            'fluorographyDose' => $fluorography->fluorographyDoseId,
+            'fluorographyResult' => $fluorography->fluorographyResultId,
+            'fluorographyNumber' => $fluorography->fluorographyNumber,
+            'fluorographySnapshot' => $fluorography->fluorographySnapshot,
+            'fluorographyDate' => $fluorography->fluorographyDate,
+            'fluorographySender' => $fluorography->fluorographySenderId,
+            'fluorographyNotation' => $fluorography->fluorographyNotation
         ]);
         return $result->rowCount() > 0 ?: false;
     }
 
-    public function update(string $id)
+    public function update(Fluorography $fluorography) : bool
     {
-        // TODO: Implement update() method.
+        $query = ("UPDATE `fluorographies`
+                   SET 
+                       `fluorography_date` = :date,
+                       `fluorography_dose` = :dose,
+                       `fluorography_sender` = :sender,
+                       `fluorography_notation` = :notation,
+                       `fluorography_snapshot` = :snapshot,
+                       `fluorography_number` = :number,
+                       `fluorography_result` = :result,
+                       `fluorography_type` = :type
+                   WHERE `id` = :id");
+        $result = $this->_connection->prepare($query);
+        $result->execute([
+            'date' => $fluorography->fluorographyDate,
+            'dose' => $fluorography->fluorographyDoseId,
+            'sender' => $fluorography->fluorographySenderId,
+            'notation' => $fluorography->fluorographyNotation,
+            'snapshot' => $fluorography->fluorographySnapshot,
+            'number' => $fluorography->fluorographyNumber,
+            'result' => $fluorography->fluorographyResultId,
+            'type' => $fluorography->fluorographyTypeId,
+            'id' => $fluorography->fluorographyId
+        ]);
+         return $result->rowCount() > 0 ?: false;
     }
 
     public function delete(string $ids) : bool

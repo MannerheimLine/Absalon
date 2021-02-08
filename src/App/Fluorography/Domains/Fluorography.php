@@ -8,7 +8,7 @@ use Absalon\Engine\Exceptions\UnknownPropertyException;
 
 class Fluorography implements \JsonSerializable
 {
-    private string $_fluorographyId;
+    private string|null $_fluorographyId;
     private string $_patientCardId;
     private int $_fluorographyTypeId;
     private string $_fluorographyTypeName;

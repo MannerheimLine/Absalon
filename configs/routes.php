@@ -78,6 +78,8 @@ $app->get('/api/v1/fluorography/options', \Absalon\Application\Fluorography\Acti
     ->lazyMiddleware('auth');
 $app->post('/api/v1/fluorographies', \Absalon\Application\Fluorography\Actions\FluorographyCreateAction::class)
     ->lazyMiddleware(['auth', 'fluorography-fields-validator', 'fluorography-create']);
+$app->put('/api/v1/fluorographies', \Absalon\Application\Fluorography\Actions\FluorographyUpdateAction::class)
+    ->lazyMiddleware(['auth', 'fluorography-fields-validator', 'fluorography-update']);
 $app->delete('/api/v1/fluorographies', \Absalon\Application\Fluorography\Actions\FluorographyDeleteAction::class)
     ->lazyMiddleware('auth');
 

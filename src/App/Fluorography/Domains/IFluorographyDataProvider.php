@@ -10,9 +10,9 @@ interface IFluorographyDataProvider
 
     public function getOptions() : array;
 
-    public function create(FluorographyCreateDTO $DTO) : bool;
+    public function create(Fluorography $fluororgraphy) : bool;
 
-    public function update(string $id);
+    public function update(Fluorography $fluororgraphy) : bool;
 
     public function delete(string $ids) : bool;
 }
