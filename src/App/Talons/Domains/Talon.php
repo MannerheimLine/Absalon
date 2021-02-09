@@ -30,7 +30,7 @@ class Talon
     private function getTalonData(string $cardId) : array
     {
         $query = ("SELECT `patient_cards`.`id` AS `cardId`,`patient_cards`.`card_number` AS `cardNumber`, 
-       CONCAT(`patient_cards`.`surname`, ' ', `patient_cards`.`first_name`, ' ', `patient_cards`.`second_name`) AS `fullName`, 
+       `patient_cards`.`surname` AS `surname`, `patient_cards`.`first_name` AS `firstName`, `patient_cards`.`second_name` AS `secondName`, 
        `genders`.`description` AS `genderDescription`, `patient_cards`.`insurance_certificate` AS `insuranceCertificate`, 
        `patient_cards`.`date_birth` AS `dateBirth`, `patient_cards`.`policy_number` AS `policyNumber`, 
        `insurance_companies`.`insurance_company_name` AS insuranceCompanyName, 
@@ -38,9 +38,9 @@ class Talon
        `patient_cards`.`passport_number` AS `passportNumber`, `patient_cards`.`fms_department` AS `fmsDepartment`,
        `patient_cards`.`birth_certificate_serial` AS `birthCertificateSerial`, 
        `patient_cards`.`birth_certificate_number` AS `birthCertificateNumber`, 
-       `patient_cards`.`registry_office` AS `registryOffice`, CONCAT(`regions`.`region_name`, ' ', 
-       `districts`.`district_name`, ' ', `localities`.`locality_name`, ' ', `streets`.`street_name`, ' ', 
-       `patient_cards`.`house_number`, ' ', `patient_cards`.`apartment`) AS `address`, 
+       `patient_cards`.`registry_office` AS `registryOffice`, `regions`.`region_name` AS `regionName`, 
+       `districts`.`district_name` AS `districtName`, `localities`.`locality_name` AS `localityName`, `streets`.`street_name` AS `streetName`, 
+       `patient_cards`.`house_number` AS `houseNumber`, `patient_cards`.`apartment` AS `apartment`, 
        `patient_cards`.`workplace` AS `workplace`, `patient_cards`.`profession` AS `profession`
        FROM `patient_cards` 
        LEFT JOIN `genders` ON `patient_cards`.`gender` = `genders`.`id`
@@ -54,6 +54,15 @@ class Talon
         $result->execute(['id' => $cardId]);
         return $result->fetch() ?: [];
 
+    }
+
+    private function prepareTalonData(array $talonData) : array
+    {
+        $talonData['dateBirth'] = date("d.m.Y", strtotime($talonData['dateBirth']));
+        $talonData['fullName'] = $talonData['surname'].' '.$talonData['firstName'].' '.$talonData['secondName'];
+        $talonData['address'] = $talonData['regionName'].' '.$talonData['districtName'].' '.$talonData['localityName']
+            .' '.$talonData['streetName'].' '.$talonData['houseNumber'].' '.$talonData['apartment'];
+        return $talonData;
     }
 
     private function getTemplate(array $talonData)
@@ -79,6 +88,7 @@ class Talon
     {
         $talonData = $this->getTalonData($this->_cardId);
         if (!empty($talonData)){
+            $talonData = $this->prepareTalonData($talonData);
             $html = $this->getTemplate($talonData);
             $mpdf = new Mpdf($this->_pdfConfigs);
             $stylesheet = file_get_contents($this->_stylesheet);
