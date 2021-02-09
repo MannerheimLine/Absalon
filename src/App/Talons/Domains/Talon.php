@@ -58,7 +58,14 @@ class Talon
 
     private function prepareTalonData(array $talonData) : array
     {
+        //Дата рождения к виду: 01.01.2001
         $talonData['dateBirth'] = date("d.m.Y", strtotime($talonData['dateBirth']));
+        //СНИЛС к виду: 111-222-333 44
+        $splited = str_split($talonData['insuranceCertificate'], 3);
+        $talonData['insuranceCertificate'] =  implode('-', array_splice($splited, 0 ,3)).' '.$splited[0];
+        //Полис к виду: 1111-2222-3333-4444
+        $talonData['policyNumber'] = implode('-', str_split($talonData['policyNumber'], 4));
+        //Склейка ФИО и полного адреса
         $talonData['fullName'] = $talonData['surname'].' '.$talonData['firstName'].' '.$talonData['secondName'];
         $talonData['address'] = $talonData['regionName'].' '.$talonData['districtName'].' '.$talonData['localityName']
             .' '.$talonData['streetName'].' '.$talonData['houseNumber'].' '.$talonData['apartment'];
