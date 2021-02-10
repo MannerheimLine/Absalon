@@ -35,10 +35,7 @@ class FluorographyManager
     public function getOptions() : HttpResultContainer
     {
         $data = $this->_dataProvider->getOptions();
-        if (!empty($data)) {
-            return new HttpResultContainer($data, 200);
-        }
-        return new HttpResultContainer('Для текущей карты не найдено ниодного исследования');
+        return new HttpResultContainer($data, 200);
     }
 
     public function create(Fluorography $fluorography) : HttpResultContainer

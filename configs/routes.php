@@ -83,4 +83,10 @@ $app->put('/api/v1/fluorographies', \Absalon\Application\Fluorography\Actions\Fl
 $app->delete('/api/v1/fluorographies', \Absalon\Application\Fluorography\Actions\FluorographyDeleteAction::class)
     ->lazyMiddleware('auth');
 
+#Vaccinations
+$app->get('/api/v1/vaccinations/{id:uuid}', \Absalon\Application\Vaccinations\Actions\VaccinationsGetAction::class)
+    ->lazyMiddleware('auth');
+$app->get('/api/v1/vaccination/options', \Absalon\Application\Vaccinations\Actions\VaccinationOptionsGetAction::class);
+    //->lazyMiddleware('auth');
+
 

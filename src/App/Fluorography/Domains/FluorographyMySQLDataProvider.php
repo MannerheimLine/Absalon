@@ -38,7 +38,6 @@ class FluorographyMySQLDataProvider implements IFluorographyDataProvider
 
     public function getOptions() : array
     {
-        $options = [];
         $query = ("SELECT `fd`.`id` AS `doseId`, `fd`.`description` AS `doseName` FROM `fluorography_doses` `fd`");
         $result = $this->_connection->prepare($query);
         $result->execute();

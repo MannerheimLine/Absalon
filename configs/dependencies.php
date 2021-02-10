@@ -12,5 +12,7 @@ return $dependencies = [
     #Tokens Data Provider
     \Absalon\Engine\AAIS\Domains\Tokens\ITokensDataProvider::class => DI\create(\Absalon\Engine\AAIS\Domains\Tokens\TokensMySQLDataProvider::class)->constructor(DI\get(\Vulpix\Engine\Database\Connectors\IConnector::class)),
     #Fluorography Data Provider
-    \Absalon\Application\Fluorography\Domains\IFluorographyDataProvider::class => DI\create(\Absalon\Application\Fluorography\Domains\FluorographyMySQLDataProvider::class)->constructor(DI\get(\Vulpix\Engine\Database\Connectors\IConnector::class))
+    \Absalon\Application\Fluorography\Domains\IFluorographyDataProvider::class => DI\create(\Absalon\Application\Fluorography\Domains\FluorographyMySQLDataProvider::class)->constructor(DI\get(\Vulpix\Engine\Database\Connectors\IConnector::class)),
+    #Vaccinations Data Provider
+    \Absalon\Application\Vaccinations\Domains\IVaccinationDataProvider::class => DI\create(\Absalon\Application\Vaccinations\Domains\VaccinationMySQLDataProvider::class)->constructor(DI\get(\Vulpix\Engine\Database\Connectors\IConnector::class))
 ];
