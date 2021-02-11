@@ -105,6 +105,9 @@ class VaccinationMySQLDataProvider implements IVaccinationDataProvider
 
     public function delete(string $ids): bool
     {
-        // TODO: Implement delete() method.
+        $query = ("DELETE FROM `vaccinations` WHERE `id` IN ($ids)");
+        $result = $this->_connection->prepare($query);
+        $result->execute();
+        return $result->rowCount() > 0 ?: false;
     }
 }
