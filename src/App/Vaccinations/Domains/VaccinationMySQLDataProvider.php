@@ -41,18 +41,49 @@ class VaccinationMySQLDataProvider implements IVaccinationDataProvider
         $result = $this->_connection->prepare($query);
         $result->execute();
         $doses = $result->fetchAll();
-        $query = ("SELECT `vdi`.`id` AS `divertId`, `vdi`.`description` AS `divertName` FROM `vaccination_diverts` `vdi`");
+        $query = ("SELECT `vdi`.`id` AS `divertId`, `vdi`.`description` AS `divertName` FROM `vaccination_diverts` `vdi` ORDER BY `vdi`.`description` ASC");
         $result = $this->_connection->prepare($query);
         $result->execute();
-        $results = $result->fetchAll();
+        $diverts = $result->fetchAll();
         $query = ("SELECT `vi`.`id` AS `injectionId`, `vi`.`description` AS `injectionName` FROM `vaccination_injections` `vi`");
         $result = $this->_connection->prepare($query);
         $result->execute();
-        $senders = $result->fetchAll();
-        $query = ("SELECT `vt`.`id` AS `typeId`, `vt`.`description` AS `typeName` FROM `vaccination_types` `vt`");
+        $injections = $result->fetchAll();
+        $query = ("SELECT `vt`.`id` AS `typeId`, `vt`.`description` AS `typeName` FROM `vaccination_types` `vt` ORDER BY `vt`.`description` ASC");
         $result = $this->_connection->prepare($query);
         $result->execute();
         $types = $result->fetchAll();
-        return $options = ['doses' => $doses, 'results' =>$results, 'senders' => $senders, 'types' => $types];
+        return $options = ['doses' => $doses, 'diverts' => $diverts, 'injections' => $injections, 'types' => $types];
+    }
+
+    public function create(Vaccination $vaccination): bool
+    {
+        $query = ("INSERT INTO `vaccinations` (`id`, `patient_card`, `vaccination_type`, `vaccination_dose`, `vaccination_date`,
+                   `vaccination_injection`, `vaccination_serial`, `vaccination_divert`, `vaccination_notation`)
+                   VALUES (:vaccinationId, :patientCardId, :vaccinationType, :vaccinationDose, :vaccinationDate,
+                           :vaccinationInjection, :vaccinationSerial, :vaccinationDivert, :vaccinationNotation)");
+        $result = $this->_connection->prepare($query);
+        $result->execute([
+            'vaccinationId' => $vaccination->vaccinationId,
+            'patientCardId' => $vaccination->patientCardId,
+            'vaccinationType' => $vaccination->vaccinationTypeId,
+            'vaccinationDose' => $vaccination->vaccinationDoseId,
+            'vaccinationDate' => $vaccination->vaccinationDate,
+            'vaccinationInjection' => $vaccination->vaccinationInjectionId,
+            'vaccinationSerial' => $vaccination->vaccinationSerial,
+            'vaccinationDivert' => $vaccination->vaccinationDivertId,
+            'vaccinationNotation' => $vaccination->vaccinationNotation
+        ]);
+        return $result->rowCount() > 0 ?: false;
+    }
+
+    public function update(Vaccination $vaccination): bool
+    {
+        // TODO: Implement update() method.
+    }
+
+    public function delete(string $ids): bool
+    {
+        // TODO: Implement delete() method.
     }
 }

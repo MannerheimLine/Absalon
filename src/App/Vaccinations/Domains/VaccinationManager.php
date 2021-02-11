@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Absalon\Application\Vaccinations\Domains;
 
 use Absalon\Engine\DataStructures\TransferContainers\HttpResultContainer;
+use Absalon\Engine\Utility\Converter\Converter;
+use Vulpix\Engine\Core\Utility\Sanitizer\Sanitizer;
 
 class VaccinationManager
 {
@@ -33,5 +35,35 @@ class VaccinationManager
     {
         $data = $this->_dataProvider->getOptions();
         return new HttpResultContainer($data, 200);
+    }
+
+    public function create(Vaccination $vaccination) : HttpResultContainer
+    {
+        if ($result = $this->_dataProvider->create($vaccination)){
+            return new HttpResultContainer($result, 201);
+        }
+        return new HttpResultContainer('Проблема вызвана в процессе вставки записи в БД', 500);
+    }
+
+    public function update(Vaccination $vaccination) : HttpResultContainer
+    {
+        try {
+            if ($result = $this->_dataProvider->update($vaccination)){
+                return new HttpResultContainer($result, 200);
+            }
+            return new HttpResultContainer("Запись с id ".$vaccination->vaccinationId." не найдена, либо обновления не были учтены",200);
+        }catch (\Exception $e){
+            return new HttpResultContainer($e->getMessage(), 500);
+        }
+    }
+
+    public function delete(array $ids) : HttpResultContainer
+    {
+        $ids = Sanitizer::sanitize($ids);
+        $ids = Converter::arrayToQuotedString($ids);
+        if ($result = $this->_dataProvider->delete($ids)){
+            return new HttpResultContainer($result,204);
+        }
+        return new HttpResultContainer("Данные отсутствуют",404);
     }
 }
