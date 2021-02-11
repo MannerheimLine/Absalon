@@ -8,9 +8,8 @@ use Absalon\Engine\Exceptions\UnknownPropertyException;
 
 class Fluorography implements \JsonSerializable
 {
-    private string $_fluorographyId;
+    private string|null $_fluorographyId;
     private string $_patientCardId;
-    private int $_patientCardNumber;
     private int $_fluorographyTypeId;
     private string $_fluorographyTypeName;
     private int|null $_fluorographyDoseId;
@@ -51,7 +50,6 @@ class Fluorography implements \JsonSerializable
         return [
             'FluorographyId' => $this->_fluorographyId,
             'PatientCardId' => $this->_patientCardId,
-            'PatientCardNumber' => $this->_patientCardNumber,
             'FluorographyTypeId' => $this->_fluorographyTypeId,
             'FluorographyTypeName' => $this->_fluorographyTypeName,
             'FluorographyDoseId' => $this->_fluorographyDoseId,

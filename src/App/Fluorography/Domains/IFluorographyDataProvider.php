@@ -8,7 +8,11 @@ interface IFluorographyDataProvider
 {
     public function getAll(string $id) : array;
 
-    public function create(string $id);
+    public function getOptions() : array;
 
-    public function update(string $id);
+    public function create(Fluorography $fluororgraphy) : bool;
+
+    public function update(Fluorography $fluororgraphy) : bool;
+
+    public function delete(string $ids) : bool;
 }

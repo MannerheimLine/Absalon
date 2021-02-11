@@ -2,18 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Absalon\Application\Fluorography\Domains;
+namespace Absalon\Application\Vaccinations\Domains;
 
 use Absalon\Engine\DataStructures\TransferContainers\HttpResultContainer;
 use Absalon\Engine\Utility\Converter\Converter;
 use Vulpix\Engine\Core\Utility\Sanitizer\Sanitizer;
 
-class FluorographyManager
+class VaccinationManager
 {
-    private IFluorographyDataProvider $_dataProvider;
+    private IVaccinationDataProvider $_dataProvider;
 
-    public function __construct(IFluorographyDataProvider $dataProvider)
-    {
+    public function __construct(IVaccinationDataProvider $dataProvider){
         $this->_dataProvider = $dataProvider;
     }
 
@@ -24,7 +23,7 @@ class FluorographyManager
         $i = 0;
         if (!empty($data)){
             foreach ($data as $record){
-                $records[$i] = FluorographyFactory::create($record);
+                $records[$i] = VaccinationFactory::create($record);
                 $i++;
             }
             return new HttpResultContainer($records, 200);
@@ -38,21 +37,21 @@ class FluorographyManager
         return new HttpResultContainer($data, 200);
     }
 
-    public function create(Fluorography $fluorography) : HttpResultContainer
+    public function create(Vaccination $vaccination) : HttpResultContainer
     {
-        if ($result = $this->_dataProvider->create($fluorography)){
+        if ($result = $this->_dataProvider->create($vaccination)){
             return new HttpResultContainer($result, 201);
         }
         return new HttpResultContainer('Проблема вызвана в процессе вставки записи в БД', 500);
     }
 
-    public function update(Fluorography $fluorography) : HttpResultContainer
+    public function update(Vaccination $vaccination) : HttpResultContainer
     {
         try {
-            if ($result = $this->_dataProvider->update($fluorography)){
+            if ($result = $this->_dataProvider->update($vaccination)){
                 return new HttpResultContainer($result, 200);
             }
-            return new HttpResultContainer("Запись с id ".$fluorography->fluorographyId." не найдена, либо обновления не были учтены",200);
+            return new HttpResultContainer("Запись с id ".$vaccination->vaccinationId." не найдена, либо обновления не были учтены",200);
         }catch (\Exception $e){
             return new HttpResultContainer($e->getMessage(), 500);
         }

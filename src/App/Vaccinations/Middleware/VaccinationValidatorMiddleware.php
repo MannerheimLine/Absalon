@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Absalon\Application\PatientCard\Card\Middleware;
+namespace Absalon\Application\Vaccinations\Middleware;
 
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -10,16 +10,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class CardValidatorMiddleware implements MiddlewareInterface
+class VaccinationValidatorMiddleware implements MiddlewareInterface
 {
     private array $_incomingFields;
     private array $_requiredFields = [
-        'Номер' => 'CardNumber',
-        'Фамилия' => 'Surname',
-        'Имя' => 'FirstName',
-        'Дата рожения' => 'DateBirth',
-        //'Номер полиса' => 'PolicyNumber', так как идут военослужащие не имеющие полиса, он не является необходимым
-        'СНИЛС' => 'InsuranceCertificate'
+        'Дата' => 'VaccinationDate',
+        'Тип' => 'VaccinationTypeId'
     ];
     private array $_emptyFields = [];
 
@@ -31,7 +27,7 @@ class CardValidatorMiddleware implements MiddlewareInterface
     {
         if (!empty($this->_incomingFields)) {
             foreach ($this->_requiredFields as $key => $value) {
-                if (empty($this->_incomingFields[$value])) {
+                if (!isset($this->_incomingFields[$value])) {
                     $this->_emptyFields[$key] = $value;
                 }
             }
@@ -40,8 +36,7 @@ class CardValidatorMiddleware implements MiddlewareInterface
         }
     }
 
-    private function sanitizeIncomingFields() : void
-    {
+    private function sanitizeIncomingFields(){
         foreach ($this->_incomingFields as $key => $value){
             if (is_string($value)){
                 $convertedString = mb_convert_encoding($value, "utf-8");
@@ -59,14 +54,13 @@ class CardValidatorMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        #Валидирую поля на то, что они заполнены
         $this->validateRequiredFields();
         if (!empty($this->_emptyFields)) {
             return new JsonResponse($this->_emptyFields, 200);
         }
-        #Очищаю поля по RegEx
         $this->sanitizeIncomingFields();
         $request = $request->withAttribute('ValidatedFields', $this->_incomingFields);
         return $response = $handler->handle($request);
     }
+
 }

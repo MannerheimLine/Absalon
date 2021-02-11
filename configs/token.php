@@ -21,7 +21,7 @@ return [
     'issuer' => 'http://example.org1',
     'subject' => '', //
     'audience' => 'http://example.com',
-    'expires' => time() + 30,//(24 * 60 * 60),
+    'expires' => time() + 3000,//(24 * 60 * 60),
     'notBefore' => time(),
     'issuedAt' => time(),
     'jwtId' => ''

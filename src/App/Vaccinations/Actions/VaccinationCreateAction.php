@@ -1,20 +1,20 @@
 <?php
 
+declare(strict_types=1);
 
-namespace Absalon\Application\Fluorography\Actions;
+namespace Absalon\Application\Vaccinations\Actions;
 
-
-use Absalon\Application\Fluorography\Domains\FluorographyManager;
-use Absalon\Application\Fluorography\Responders\FluorographyCreateResponder;
+use Absalon\Application\Vaccinations\Domains\VaccinationManager;
+use Absalon\Application\Vaccinations\Responders\VaccinationCreateResponder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class FluorographyCreateAction
+class VaccinationCreateAction
 {
-    private FluorographyManager $_manager;
-    private FluorographyCreateResponder $_responder;
+    private VaccinationManager $_manager;
+    private VaccinationCreateResponder $_responder;
 
-    public function __construct(FluorographyManager $manager, FluorographyCreateResponder $responder){
+    public function __construct(VaccinationManager $manager, VaccinationCreateResponder $responder){
         $this->_manager = $manager;
         $this->_responder = $responder;
     }
@@ -25,5 +25,4 @@ class FluorographyCreateAction
         $response = $this->_responder->respond($request, $result);
         return $response;
     }
-
 }

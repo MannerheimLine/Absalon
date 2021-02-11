@@ -2,18 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Absalon\Application\PatientCard\Card\Middleware;
+namespace Absalon\Application\Vaccinations\Middleware;
 
-use Absalon\Application\PatientCard\Card\Domains\CardFactory;
+use Absalon\Application\Vaccinations\Domains\VaccinationFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use function DI\create;
 
-class CardUpdateMiddleware implements MiddlewareInterface
+class VaccinationUpdateMiddleware implements MiddlewareInterface
 {
-
     /**
      * Process an incoming server request.
      *
@@ -21,9 +19,9 @@ class CardUpdateMiddleware implements MiddlewareInterface
      * If unable to produce the response itself, it may delegate to the provided
      * request handler to do so.
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
-        $dto = CardFactory::create($request->getAttribute('ValidatedFields'));
+        $dto = VaccinationFactory::create($request->getAttribute('ValidatedFields'));
         $request = $request->withAttribute('DTO', $dto);
         return $response = $handler->handle($request);
     }

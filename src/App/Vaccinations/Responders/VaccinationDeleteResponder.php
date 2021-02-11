@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types=1);
 
-namespace Absalon\Application\Fluorography\Responders;
-
+namespace Absalon\Application\Vaccinations\Responders;
 
 use Laminas\Diactoros\Response;
 use Psr\Http\Message\ServerRequestInterface;
 
-class FluorographyCreateResponder
+class VaccinationDeleteResponder
 {
     public function respond(ServerRequestInterface $request, $payload = null): Response
     {

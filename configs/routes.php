@@ -74,5 +74,25 @@ $app->get('/api/v1/auth/doRefresh', \Absalon\Engine\AAIS\Actions\RefreshAction::
 #Fluorography
 $app->get('/api/v1/fluorographies/{id:uuid}', \Absalon\Application\Fluorography\Actions\FluorographiesGetAction::class)
     ->lazyMiddleware('auth');
+$app->get('/api/v1/fluorography/options', \Absalon\Application\Fluorography\Actions\FluorographyOptionsGetAction::class)
+    ->lazyMiddleware('auth');
+$app->post('/api/v1/fluorographies', \Absalon\Application\Fluorography\Actions\FluorographyCreateAction::class)
+    ->lazyMiddleware(['auth', 'fluorography-fields-validator', 'fluorography-create']);
+$app->put('/api/v1/fluorographies', \Absalon\Application\Fluorography\Actions\FluorographyUpdateAction::class)
+    ->lazyMiddleware(['auth', 'fluorography-fields-validator', 'fluorography-update']);
+$app->delete('/api/v1/fluorographies', \Absalon\Application\Fluorography\Actions\FluorographyDeleteAction::class)
+    ->lazyMiddleware('auth');
+
+#Vaccinations
+$app->get('/api/v1/vaccinations/{id:uuid}', \Absalon\Application\Vaccinations\Actions\VaccinationsGetAction::class)
+    ->lazyMiddleware('auth');
+$app->get('/api/v1/vaccination/options', \Absalon\Application\Vaccinations\Actions\VaccinationOptionsGetAction::class)
+    ->lazyMiddleware('auth');
+$app->post('/api/v1/vaccinations', \Absalon\Application\vaccinations\Actions\VaccinationCreateAction::class)
+    ->lazyMiddleware(['auth', 'vaccination-fields-validator', 'vaccination-create']);
+$app->put('/api/v1/vaccinations', \Absalon\Application\Vaccinations\Actions\VaccinationUpdateAction::class)
+    ->lazyMiddleware(['auth', 'vaccination-fields-validator', 'vaccination-update']);
+$app->delete('/api/v1/vaccinations', \Absalon\Application\Vaccinations\Actions\VaccinationDeleteAction::class)
+    ->lazyMiddleware('auth');
 
 

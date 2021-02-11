@@ -2,18 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Absalon\Application\PatientCard\Card\Middleware;
+namespace Absalon\Application\Fluorography\Middleware;
 
-use Absalon\Application\PatientCard\Card\Domains\CardFactory;
+use Absalon\Application\Fluorography\Domains\FluorographyFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use function DI\create;
+use Ramsey\Uuid\Uuid;
 
-class CardUpdateMiddleware implements MiddlewareInterface
+class FluorographyCreateMiddleware implements MiddlewareInterface
 {
-
     /**
      * Process an incoming server request.
      *
@@ -23,8 +22,11 @@ class CardUpdateMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $dto = CardFactory::create($request->getAttribute('ValidatedFields'));
+        $validatedFields = $request->getAttribute('ValidatedFields');
+        $dto = FluorographyFactory::create($validatedFields);
+        $dto->FluorographyId = Uuid::uuid4()->toString();
         $request = $request->withAttribute('DTO', $dto);
         return $response = $handler->handle($request);
+
     }
 }

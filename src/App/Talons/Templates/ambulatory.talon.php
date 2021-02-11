@@ -40,7 +40,7 @@
 <div class="talon-line">
     14. Адрес: <b><?=$talonData['address']; ?></b>
 </div>
-<?php if(isset($talonData['workplace'])) : ?>
+<?php if(isset($talonData['workplace']) && !empty($talonData['workplace'])) : ?>
     <div class="talon-line">
         <b>15. Работает</b>
         16. Место работы: <b><?=$talonData['workplace']; ?></b>
