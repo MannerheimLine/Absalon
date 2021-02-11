@@ -79,7 +79,28 @@ class VaccinationMySQLDataProvider implements IVaccinationDataProvider
 
     public function update(Vaccination $vaccination): bool
     {
-        // TODO: Implement update() method.
+        $query = ("UPDATE `vaccinations`
+                   SET 
+                       `vaccination_type` = :type,
+                       `vaccination_dose` = :dose,
+                       `vaccination_date` = :date,
+                       `vaccination_injection` = :injection,
+                       `vaccination_serial` = :serial,
+                       `vaccination_divert` = :divert,
+                       `vaccination_notation` = :notation
+                   WHERE `id` = :id");
+        $result = $this->_connection->prepare($query);
+        $result->execute([
+            'id' => $vaccination->vaccinationId,
+            'type' => $vaccination->vaccinationTypeId,
+            'dose' => $vaccination->vaccinationDoseId,
+            'date' => $vaccination->vaccinationDate,
+            'injection' => $vaccination->vaccinationInjectionId,
+            'serial' => $vaccination->vaccinationSerial,
+            'divert' => $vaccination->vaccinationDivertId,
+            'notation' => $vaccination->vaccinationNotation
+        ]);
+        return $result->rowCount() > 0 ?: false;
     }
 
     public function delete(string $ids): bool

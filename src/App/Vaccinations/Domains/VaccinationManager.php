@@ -64,6 +64,6 @@ class VaccinationManager
         if ($result = $this->_dataProvider->delete($ids)){
             return new HttpResultContainer($result,204);
         }
-        return new HttpResultContainer("Данные отсутствуют",404);
+        return new HttpResultContainer("Данные отсутствуют");
     }
 }

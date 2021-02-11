@@ -90,5 +90,9 @@ $app->get('/api/v1/vaccination/options', \Absalon\Application\Vaccinations\Actio
     ->lazyMiddleware('auth');
 $app->post('/api/v1/vaccinations', \Absalon\Application\vaccinations\Actions\VaccinationCreateAction::class)
     ->lazyMiddleware(['auth', 'vaccination-fields-validator', 'vaccination-create']);
+$app->put('/api/v1/vaccinations', \Absalon\Application\Vaccinations\Actions\VaccinationUpdateAction::class)
+    ->lazyMiddleware(['auth', 'vaccination-fields-validator', 'vaccination-update']);
+$app->delete('/api/v1/vaccinations', \Absalon\Application\Vaccinations\Actions\VaccinationDeleteAction::class)
+    ->lazyMiddleware('auth');
 
 
