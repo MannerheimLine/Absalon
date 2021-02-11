@@ -18,7 +18,7 @@ class CardValidatorMiddleware implements MiddlewareInterface
         'Фамилия' => 'Surname',
         'Имя' => 'FirstName',
         'Дата рожения' => 'DateBirth',
-        'Номер полиса' => 'PolicyNumber',
+        //'Номер полиса' => 'PolicyNumber', так как идут военослужащие не имеющие полиса, он не является необходимым
         'СНИЛС' => 'InsuranceCertificate'
     ];
     private array $_emptyFields = [];
