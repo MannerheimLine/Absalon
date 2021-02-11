@@ -26,10 +26,7 @@ class CardCreateMiddleware implements MiddlewareInterface
                    FROM `patient_cards` 
                    WHERE `insurance_certificate` =:insuranceCertificate");
         $result = $this->_connection->prepare($query);
-        $result->execute([
-            'policyNumber' => $policyNumber,
-            'insuranceCertificate' => $insuranceCertificate
-            ]);
+        $result->execute(['insuranceCertificate' => $insuranceCertificate]);
         if ($result->rowCount() > 0){
             return $result->fetch();
         }
