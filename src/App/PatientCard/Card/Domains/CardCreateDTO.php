@@ -25,7 +25,8 @@ class CardCreateDTO
     private string $_firstName;
     private int $_gender;
     private string $_dateBirth;
-    private string $_policyNumber;
+    private string|null $_policyNumber; //Так как есть военослужащие, у них полис как таковой отсутсвует, значит
+                                        // в системе данное поле не является обязательным
     private string $_insuranceCertificate;
 
     public function __construct(array $data){
