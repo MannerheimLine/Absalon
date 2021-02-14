@@ -20,16 +20,13 @@ class CardCreateMiddleware implements MiddlewareInterface
         $this->_connection = $connector::getConnection();
     }
 
-    private function isCardExist(string $policyNumber, string $insuranceCertificate) : array|bool
+    private function isCardExist(string $insuranceCertificate) : array|bool
     {
         $query = ("SELECT `id` 
                    FROM `patient_cards` 
-                   WHERE `policy_number` = :policyNumber OR `insurance_certificate` =:insuranceCertificate");
+                   WHERE `insurance_certificate` =:insuranceCertificate");
         $result = $this->_connection->prepare($query);
-        $result->execute([
-            'policyNumber' => $policyNumber,
-            'insuranceCertificate' => $insuranceCertificate
-            ]);
+        $result->execute(['insuranceCertificate' => $insuranceCertificate]);
         if ($result->rowCount() > 0){
             return $result->fetch();
         }
@@ -47,10 +44,9 @@ class CardCreateMiddleware implements MiddlewareInterface
     {
         #Проверка карты на уникальность
         $validatedFields = $request->getAttribute('ValidatedFields');
-        $policyNumber = $validatedFields['PolicyNumber'];
         $insuranceCertificate = $validatedFields['InsuranceCertificate'];
-        if($id = $this->isCardExist($policyNumber, $insuranceCertificate)){
-            return new JsonResponse($id, 302);
+        if($id = $this->isCardExist($insuranceCertificate)){
+            return new JsonResponse($id, 200);
         }
         #Если карта отсуствует в БД, добавляю ее
         $dto = new CardCreateDTO($validatedFields);
