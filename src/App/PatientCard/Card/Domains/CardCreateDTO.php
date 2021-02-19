@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Absalon\Application\PatientCard\Card\Domains;
 
 use Absalon\Engine\Exceptions\UnknownPropertyException;
+use Absalon\Engine\Utility\Converter\Converter;
+use phpDocumentor\Reflection\Types\This;
 use Ramsey\Uuid\Uuid;
 use function Ramsey\Uuid\v4;
 
@@ -23,6 +25,7 @@ class CardCreateDTO
     private int $_cardNumber;
     private string $_surname;
     private string $_firstName;
+    private string|null $_secondName;
     private int $_gender;
     private string $_dateBirth;
     private string|null $_policyNumber; //Так как есть военослужащие, у них полис как таковой отсутсвует, значит
@@ -36,6 +39,10 @@ class CardCreateDTO
                 $this->$property = $value;
             }
         }
+        //Привести к нормальному виду ФИО
+        $this->_surname = Converter::mbUcFirst($this->_surname);
+        $this->_firstName = Converter::mbUcFirst($this->_surname);
+        $this->_secondName = Converter::mbUcFirst($this->_secondName);
     }
 
     public function __get($name){

@@ -22,4 +22,7 @@ class Converter
         return mb_substr($string, 0, -2);
     }
 
+    public static function mbUcFirst(string $string){
+        return mb_strtoupper(mb_substr($string, 0, 1)).mb_substr($string, 1);
+    }
 }
