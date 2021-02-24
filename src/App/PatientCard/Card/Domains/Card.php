@@ -45,7 +45,6 @@ class Card implements \JsonSerializable
     private string|null $_profession = null;               // профессия
     private string|null $_notation = null;                 // любой комментарий
     private string|null $_owner = null;                    // пользователь редактирующий текущую карту
-    private AddressesContainer|null $_addresses = null;
     #endregion
 
     /**
@@ -102,8 +101,7 @@ class Card implements \JsonSerializable
             'Workplace' => $this->_workplace,
             'Profession' => $this->_profession,
             'Notation' => $this->_notation,
-            'Owner' => $this->_owner,
-            'Addresses' => $this->_addresses
+            'Owner' => $this->_owner
         ];
     }
 }
