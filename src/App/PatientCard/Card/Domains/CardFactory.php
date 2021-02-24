@@ -16,5 +16,4 @@ class CardFactory
         }
         return $card;
     }
-
 }

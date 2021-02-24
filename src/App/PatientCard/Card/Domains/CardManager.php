@@ -23,11 +23,15 @@ class CardManager
 
     public function get(string $id) : HttpResultContainer
     {
-        $card = CardFactory::create($this->_dataProvider->get($id));
-        if ($card->cardId !== null){
-            return new HttpResultContainer($card, 200);
+        try{
+            $card = CardFactory::create($this->_dataProvider->get($id));
+            if ($card->cardId !== null){
+                return new HttpResultContainer($card, 200);
+            }
+            return new HttpResultContainer('Карта с идентификатором '.$id. ' не найдена на сервере', 204);
+        }catch (\Exception $e){
+            return new HttpResultContainer('Ошибка произошла при получении карты в CardManager::get()'.$e->getMessage(), 500);
         }
-        return new HttpResultContainer('Карта с идентификатором '.$id. ' не найдена на сервере', 404);
     }
 
     public function create(CardCreateDTO $cardCreateDTO): HttpResultContainer

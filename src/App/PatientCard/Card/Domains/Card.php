@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Absalon\Application\PatientCard\Card\Domains;
 
+use Absalon\Application\PatientCard\Addresses\Domains\AddressesContainer;
 use Absalon\Engine\Exceptions\UnknownPropertyException;
 
 /**
@@ -40,20 +41,11 @@ class Card implements \JsonSerializable
     private string|null $_birthCertificateNumber = null;   // номер сертифката, 6 цифр
     private string|null $_birthCertificateDateOfIssue = null;   // номер сертифката, 6 цифр
     private string|null $_registryOffice = null;           // отдел ЗАГС выдавший свидетельство
-    private int|null $_regionId = null;                    // id региона
-    private string|null $_regionName = null;               // название региона
-    private int|null $_districtId = null;                  // id района
-    private string|null $_districtName = null;             // название района
-    private int|null $_localityId = null;                  // id населенного пункта
-    private string|null $_localityName = null;             // название населенного пункта
-    private int|null $_streetId = null;                    // id улицы
-    private string|null $_streetName = null;               // название улицы
-    private string|null $_houseNumber = null;              // номер дома, может быть с содержанием буквы, 45B
-    private string|null $_apartment = null;                // номер квартиры
     private string|null $_workplace = null;                // место работы, заносится от руки
     private string|null $_profession = null;               // профессия
     private string|null $_notation = null;                 // любой комментарий
     private string|null $_owner = null;                    // пользователь редактирующий текущую карту
+    private AddressesContainer|null $_addresses = null;
     #endregion
 
     /**
@@ -107,20 +99,11 @@ class Card implements \JsonSerializable
             'BirthCertificateNumber' => $this->_birthCertificateNumber,
             'BirthCertificateDateOfIssue' => $this->_birthCertificateDateOfIssue,
             'RegistryOffice' => $this->_registryOffice,
-            'RegionId' => $this->_regionId,
-            'RegionName' => $this->_regionName,
-            'DistrictId' => $this->_districtId,
-            'DistrictName' => $this->_districtName,
-            'LocalityId' => $this->_localityId,
-            'LocalityName' => $this->_localityName,
-            'StreetId' => $this->_streetId,
-            'StreetName' => $this->_streetName,
-            'HouseNumber' => $this->_houseNumber,
-            'Apartment' => $this->_apartment,
             'Workplace' => $this->_workplace,
             'Profession' => $this->_profession,
             'Notation' => $this->_notation,
-            'Owner' => $this->_owner
+            'Owner' => $this->_owner,
+            'Addresses' => $this->_addresses
         ];
     }
 }

@@ -41,16 +41,8 @@ class CardMySQLDataProvider implements ICardDataProvider
                 `passport_date_of_issue` AS `passportDateOfIssue`, `birth_certificate_date_of_issue` AS `birthCertificateDateOfIssue`,
                 `fms_department` AS `fmsDepartment`, `birth_certificate_serial` AS `birthCertificateSerial`, 
                 `birth_certificate_number` AS `birthCertificateNumber`, `registry_office` AS `registryOffice`, 
-                `region_id` AS `regionId`, `region_name` AS `regionName`, `district_id` AS `districtId`, `district_name` AS `districtName`, 
-                `locality_id` AS `localityId`, `locality_name` AS `localityName`, `street_id` AS `streetId`, `street_name` AS `streetName`,
-                `house_number` AS `houseNumber`, `apartment`, `workplace`, `profession`, `notation`,
-                `insurance_company_id` AS `insuranceCompanyId`, `insurance_company_name` AS `insuranceCompanyName`,
-                `owner` AS `owner`
+                `workplace`, `profession`, `notation`, `owner` AS `owner`
                 FROM `patient_cards`
-                LEFT JOIN `regions` ON `patient_cards`.`region_id` = `regions`.`id` 
-                LEFT JOIN `districts` ON `patient_cards`.`district_id` = `districts`.`id` 
-                LEFT JOIN `localities` ON `patient_cards`.`locality_id` = `localities`.`id` 
-                LEFT JOIN `streets` ON `patient_cards`.`street_id` = `streets`.`id`     
                 LEFT JOIN `insurance_companies` ON `patient_cards`.`insurance_company_id` = `insurance_companies`.`id` 
                 WHERE `patient_cards`.`id` = :id");
         $result = $this->_connection->prepare($query);
@@ -60,9 +52,9 @@ class CardMySQLDataProvider implements ICardDataProvider
 
     public function create(CardCreateDTO $dto): string
     {
-        $query = ("INSERT INTO `patient_cards` (`id`, `card_number`, `surname`, `first_name`, `gender`, `date_birth`, 
+        $query = ("INSERT INTO `patient_cards` (`id`, `card_number`, `surname`, `first_name`, `second_name`, `gender`, `date_birth`, 
                    `policy_number`, `insurance_certificate`)
-                   VALUES (:cardId, :cardNumber, :surname, :firstName, :gender, :dateBirth, :policyNumber, 
+                   VALUES (:cardId, :cardNumber, :surname, :firstName, :secondName, :gender, :dateBirth, :policyNumber, 
                    :insuranceCertificate)");
         $result = $this->_connection->prepare($query);
         $result->execute([
@@ -70,6 +62,7 @@ class CardMySQLDataProvider implements ICardDataProvider
             'cardNumber' => $dto->cardNumber,
             'surname' => $dto->surname,
             'firstName' => $dto->firstName,
+            'secondName' => $dto->secondName,
             'gender' => $dto->gender,
             'dateBirth' => $dto->dateBirth,
             'policyNumber' => $dto->policyNumber,
@@ -80,7 +73,7 @@ class CardMySQLDataProvider implements ICardDataProvider
 
     public function update(Card $card) : bool
     {
-        $query = ("UPDATE `patient_cards` 
+        /*$query = ("UPDATE `patient_cards`
                    SET 
                        `card_number` = :cardNumber,
                        `surname` = :surname,
@@ -111,6 +104,32 @@ class CardMySQLDataProvider implements ICardDataProvider
                        `profession` = :profession,
                        `notation` = :notation,
                        `last_update` = :last_update
+                   WHERE `id` = :cardId");*/
+        $query = ("UPDATE `patient_cards` 
+                   SET 
+                       `card_number` = :cardNumber,
+                       `surname` = :surname,
+                       `first_name` = :firstName,
+                       `second_name` = :secondName,
+                       `gender` = :gender,
+                       `date_birth` = :dateBirth,
+                       `phone_number` = :phoneNumber,
+                       `email` = :email,
+                       `policy_number` = :policyNumber,
+                       `insurance_company_id` = :insuranceCompanyId,
+                       `insurance_certificate` = :insuranceCertificate,
+                       `passport_serial` = :passportSerial,
+                       `passport_number` = :passportNumber,
+                       `passport_date_of_issue` = :passportDateOfIssue,
+                       `fms_department` =:fmsDepartment,
+                       `birth_certificate_serial` = :birthCertificateSerial,
+                       `birth_certificate_number` = :birthCertificateNumber,
+                       `birth_certificate_date_of_issue` = :birthCertificateDateOfIssue,
+                       `registry_office` = :registryOffice,
+                       `workplace` = :workplace,
+                       `profession` = :profession,
+                       `notation` = :notation,
+                       `last_update` = :last_update
                    WHERE `id` = :cardId");
         $result = $this->_connection->prepare($query);
         $result->execute([
@@ -134,12 +153,6 @@ class CardMySQLDataProvider implements ICardDataProvider
             'birthCertificateNumber' => $card->birthCertificateNumber,
             'birthCertificateDateOfIssue' => $card->birthCertificateDateOfIssue,
             'registryOffice' => $card->registryOffice,
-            'regionId' => $card->regionId,
-            'districtId' => $card->districtId,
-            'localityId' => $card->localityId,
-            'streetId' => $card->streetId,
-            'houseNumber' => $card->houseNumber,
-            'apartment' => $card->apartment,
             'workplace' => $card->workplace,
             'profession' => $card->profession,
             'notation' => $card->notation,
