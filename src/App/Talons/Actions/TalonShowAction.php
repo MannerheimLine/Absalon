@@ -21,10 +21,11 @@ class TalonShowAction
 
     public function __invoke(ServerRequestInterface $request) : ResponseInterface
     {
+        parse_str(parse_url($_SERVER['REQUEST_URI'])['query'], $configs);
         $incomingData = [
             'cardId' => $request->getAttribute('id'),
             'talon' => $request->getAttribute('talon'),
-            'configs' => $request->getAttribute('configs')
+            'configs' => json_decode($configs[0], true)
         ];
         $result = $this->_talon->init($incomingData)->makePdf();
         $response = $this->_responder->respond($request, $result);

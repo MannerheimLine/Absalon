@@ -27,7 +27,7 @@ class Talon
         $this->_connection = $connector::getConnection();
     }
 
-    private function getTalonData(string $cardId) : array
+    private function getCardData(string $cardId) : array
     {
         $query = ("SELECT `patient_cards`.`id` AS `cardId`,`patient_cards`.`card_number` AS `cardNumber`, 
        `patient_cards`.`surname` AS `surname`, `patient_cards`.`first_name` AS `firstName`, `patient_cards`.`second_name` AS `secondName`, 
@@ -38,21 +38,19 @@ class Talon
        `patient_cards`.`passport_number` AS `passportNumber`, `patient_cards`.`fms_department` AS `fmsDepartment`,
        `patient_cards`.`birth_certificate_serial` AS `birthCertificateSerial`, 
        `patient_cards`.`birth_certificate_number` AS `birthCertificateNumber`, 
-       `patient_cards`.`registry_office` AS `registryOffice`, `regions`.`region_name` AS `regionName`, 
-       `districts`.`district_name` AS `districtName`, `localities`.`locality_name` AS `localityName`, `streets`.`street_name` AS `streetName`, 
-       `patient_cards`.`house_number` AS `houseNumber`, `patient_cards`.`apartment` AS `apartment`, 
-       `patient_cards`.`workplace` AS `workplace`, `patient_cards`.`profession` AS `profession`
+       `patient_cards`.`registry_office` AS `registryOffice`, `patient_cards`.`workplace` AS `workplace`, 
+       `patient_cards`.`profession` AS `profession`
        FROM `patient_cards` 
        LEFT JOIN `genders` ON `patient_cards`.`gender` = `genders`.`id`
        LEFT JOIN `insurance_companies` ON `patient_cards`.`insurance_company_id` = `insurance_companies`.`id`
-       LEFT JOIN `regions` ON `patient_cards`.`region_id` = `regions`.`id`
-       LEFT JOIN `districts` ON `patient_cards`.`district_id` = `districts`.`id`
-       LEFT JOIN `localities` ON `patient_cards`.`locality_id` = `localities`.`id`
-       LEFT JOIN `streets` ON `patient_cards`.`street_id` = `streets`.`id` 
        WHERE `patient_cards`.`id` = :id");
         $result = $this->_connection->prepare($query);
         $result->execute(['id' => $cardId]);
         return $result->fetch() ?: [];
+    }
+
+    private function getAddresses(string $cardId) : array
+    {
 
     }
 
@@ -67,8 +65,7 @@ class Talon
         $talonData['policyNumber'] = implode('-', str_split($talonData['policyNumber'], 4));
         //Склейка ФИО и полного адреса
         $talonData['fullName'] = $talonData['surname'].' '.$talonData['firstName'].' '.$talonData['secondName'];
-        $talonData['address'] = $talonData['regionName'].' '.$talonData['districtName'].' '.$talonData['localityName']
-            .' '.$talonData['streetName'].' '.$talonData['houseNumber'].' '.$talonData['apartment'];
+        $talonData['address'] = '';
         return $talonData;
     }
 
@@ -94,7 +91,7 @@ class Talon
 
     public function makePdf() : HttpResultContainer
     {
-        $talonData = $this->getTalonData($this->_cardId);
+        $talonData = $this->getCardData($this->_cardId);
         if (!empty($talonData)){
             $talonData = $this->prepareTalonData($talonData);
             $html = $this->getTemplate($talonData);
