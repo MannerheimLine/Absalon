@@ -15,13 +15,13 @@ class Talon
     private $_connection;
     private $_template;
     private $_stylesheet;
-    private $_pdfConfigs = [
+    private $_pdfConfigs; /*= [
         'format' => 'A5-P',
         'margin_left' => 5,
         'margin_right' => 5,
         'margin_top' => 5,
         'margin_bottom' => 5,
-    ];
+    ];*/
 
     public function __construct(IConnector $connector){
         $this->_connection = $connector::getConnection();
@@ -86,6 +86,7 @@ class Talon
             $this->_cardId = $data['cardId'];
             $this->_template = 'src/App/Talons/Templates/'.$data['talon'].'.talon.php';
             $this->_stylesheet = 'src/App/Talons/Templates/css/'.$data['talon'].'.talon.css';
+            $this->_pdfConfigs = $data['configs'];
             return $this;
         }
         throw new \InvalidArgumentException('Ожидался массив данных, пришел пустой массив');
