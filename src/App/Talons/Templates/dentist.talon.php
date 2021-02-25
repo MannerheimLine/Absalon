@@ -71,7 +71,7 @@
 
     <div class="talon-line">
         25. Диагноз основной уточненный:
-        <table class="talon-table">
+        <table class="talon-table" style="border-collapse: separate; border-spacing: 0px;">
             <thead>
             <tr>
                 <th style="width: 25%;">Код МЭС</th>
@@ -88,7 +88,7 @@
                 <td style="height: 20px"></td>
                 <td></td>
                 <td>
-                    <table cellspacing="0" cellpadding="0" style="width: 100%;">
+                    <table style="border-collapse: separate; border-spacing: 0px;">
                         <tr style="text-align: center">
                             <td style="padding: 7px">П</td>
                         </tr>
@@ -98,7 +98,7 @@
                     </table>
                 </td>
                 <td>
-                    <table cellspacing="0" cellpadding="0" style="width: 100%;">
+                    <table style="border-collapse: separate; border-spacing: 0px;">
                         <tr>
                             <td style="width: 30px; height: 30px;"> </td>
                             <td style="width: 30px; height: 30px;"> </td>

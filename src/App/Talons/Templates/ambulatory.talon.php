@@ -69,7 +69,7 @@
     24. Дата закрытия: _______________________
 </div>
 <div class="talon-line">
-    <table class="talon-table">
+    <table class="talon-table" style="border-collapse: separate; border-spacing: 0px;">
         <thead>
         <tr>
             <th style="width: 25%;">Место обслуживания</th>
@@ -107,7 +107,7 @@
     </table>
 </div>
 <div class="talon-line">
-    <table class="talon-table">
+    <table class="talon-table" style="border-collapse: separate; border-spacing: 0px;">
         <thead>
         <tr>
             <th style="width:30%"></th>
