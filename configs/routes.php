@@ -96,8 +96,8 @@ $app->delete('/api/v1/vaccinations', \Absalon\Application\Vaccinations\Actions\V
     ->lazyMiddleware('auth');
 
 #Addresses
-$app->get('/api/v1/addresses/{id:uuid}', \Absalon\Application\PatientCard\Addresses\Actions\AddressesGetAction::class)
-    ->lazyMiddleware('auth');
+//$app->get('/api/v1/addresses/{id:uuid}', \Absalon\Application\PatientCard\Addresses\Actions\AddressesGetAction::class)
+    //->lazyMiddleware('auth');
 
 #Fluorography Reports
 $app->get('/api/v1/report/fluorography/past-patients', \Absalon\Application\Reports\Fluorography\Actions\FluorographyGetPastPatientsAction::class)
