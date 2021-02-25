@@ -14,5 +14,7 @@ return $dependencies = [
     #Fluorography Data Provider
     \Absalon\Application\Fluorography\Domains\IFluorographyDataProvider::class => DI\create(\Absalon\Application\Fluorography\Domains\FluorographyMySQLDataProvider::class)->constructor(DI\get(\Vulpix\Engine\Database\Connectors\IConnector::class)),
     #Vaccinations Data Provider
-    \Absalon\Application\Vaccinations\Domains\IVaccinationDataProvider::class => DI\create(\Absalon\Application\Vaccinations\Domains\VaccinationMySQLDataProvider::class)->constructor(DI\get(\Vulpix\Engine\Database\Connectors\IConnector::class))
+    \Absalon\Application\Vaccinations\Domains\IVaccinationDataProvider::class => DI\create(\Absalon\Application\Vaccinations\Domains\VaccinationMySQLDataProvider::class)->constructor(DI\get(\Vulpix\Engine\Database\Connectors\IConnector::class)),
+    #Fluorography Reports Data Provider
+    \Absalon\Application\Reports\Fluorography\Domains\IFluorographyReportsDataProvider::class => DI\create(\Absalon\Application\Reports\Fluorography\Domains\FluorographyReportsMySQLDataProvider::class)->constructor(DI\get(\Vulpix\Engine\Database\Connectors\IConnector::class))
 ];
