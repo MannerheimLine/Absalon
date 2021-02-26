@@ -27,7 +27,8 @@ class Card implements \JsonSerializable
     private int|null $_isAlive = null;                     // статус жизни: 1- жив, 2 - мертв
     private string|null $_phoneNumber = null;              // номер телефона
     private string|null $_email = null;                    // адрес электронной почты
-    private string|null $_policyNumber = null;             // [!!!] номер полиса
+    private string|null $_policyNumber = null;             // [!!!] единый номер полиса
+    private string|null $_temporaryPolicyNumber = null;             // [!!!] временный полис
     private int|null $_insuranceCompanyId = null;          // id страховой компании, для поиска в клиенте
     private string|null $_insuranceCompanyName = null;     // имя страховой компании для отображения
     private string|null $_insuranceCertificate = null;     // [!!!] СНИЛС
@@ -87,6 +88,7 @@ class Card implements \JsonSerializable
             'PhoneNumber' => $this->_phoneNumber,
             'Email' => $this->_email,
             'PolicyNumber' => $this->_policyNumber,
+            'TemporaryPolicyNumber' => $this->_temporaryPolicyNumber,
             'InsuranceCompanyId' => $this->_insuranceCompanyId,
             'InsuranceCompanyName' => $this->_insuranceCompanyName,
             'InsuranceCertificate' => $this->_insuranceCertificate,
