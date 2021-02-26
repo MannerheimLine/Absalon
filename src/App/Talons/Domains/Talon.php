@@ -33,11 +33,12 @@ class Talon
        `patient_cards`.`surname` AS `surname`, `patient_cards`.`first_name` AS `firstName`, `patient_cards`.`second_name` AS `secondName`, 
        `genders`.`description` AS `genderDescription`, `patient_cards`.`insurance_certificate` AS `insuranceCertificate`, 
        `patient_cards`.`date_birth` AS `dateBirth`, `patient_cards`.`policy_number` AS `policyNumber`, 
-       `insurance_companies`.`insurance_company_name` AS insuranceCompanyName, 
+       `patient_cards`.`temporary_policy_number` AS `temporaryPolicyNumber`, `insurance_companies`.`insurance_company_name` AS insuranceCompanyName, 
        `insurance_companies`.`insurer_code` AS `insurerCode`, `patient_cards`.`passport_serial` AS `passportSerial`, 
-       `patient_cards`.`passport_number` AS `passportNumber`, `patient_cards`.`fms_department` AS `fmsDepartment`,
-       `patient_cards`.`birth_certificate_serial` AS `birthCertificateSerial`, 
+       `patient_cards`.`passport_number` AS `passportNumber`, `patient_cards`.`passport_date_of_issue` AS `passportDateOfIssue`,
+       `patient_cards`.`fms_department` AS `fmsDepartment`, `patient_cards`.`birth_certificate_serial` AS `birthCertificateSerial`, 
        `patient_cards`.`birth_certificate_number` AS `birthCertificateNumber`, 
+       `patient_cards`.`birth_certificate_date_of_issue` AS `birthCertificateDateOfIssue`,
        `patient_cards`.`registry_office` AS `registryOffice`, `patient_cards`.`workplace` AS `workplace`, 
        `patient_cards`.`profession` AS `profession`
        FROM `patient_cards` 
@@ -58,11 +59,21 @@ class Talon
     {
         //Дата рождения к виду: 01.01.2001
         $talonData['dateBirth'] = date("d.m.Y", strtotime($talonData['dateBirth']));
+        //Дата выдачи паспорта к виду: 01.01.2001
+        if (isset( $talonData['passportDateOfIssue'])){
+            $talonData['passportDateOfIssue'] = date("d.m.Y", strtotime($talonData['passportDateOfIssue']));
+        }
+        //Дата выдачи свидетельства о рождения к виду: 01.01.2001
+        if (isset($talonData['birthCertificateDateOfIssue'])){
+            $talonData['birthCertificateDateOfIssue'] = date("d.m.Y", strtotime($talonData['birthCertificateDateOfIssue']));
+        }
         //СНИЛС к виду: 111-222-333 44
         $splited = str_split($talonData['insuranceCertificate'], 3);
         $talonData['insuranceCertificate'] =  implode('-', array_splice($splited, 0 ,3)).' '.$splited[0];
         //Полис к виду: 1111-2222-3333-4444
         $talonData['policyNumber'] = implode('-', str_split($talonData['policyNumber'], 4));
+        //Временный полис к виду: 111-222-333
+        $talonData['temporaryPolicyNumber'] = implode('-', str_split($talonData['temporaryPolicyNumber'], 3));
         //Склейка ФИО и полного адреса
         $talonData['fullName'] = $talonData['surname'].' '.$talonData['firstName'].' '.$talonData['secondName'];
         $talonData['address'] = '';

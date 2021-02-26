@@ -19,15 +19,19 @@
     </div>
     <div class="talon-line">
         4. Паспортные данные: <b><?=$talonData['passportSerial'].' '.$talonData['passportNumber']; ?></b>
-        5. Выдан: <b><?=$talonData['fmsDepartment']?></b>
+        5. Выдан: <b><?=$talonData['fmsDepartment'].' '.$talonData['passportDateOfIssue'];?></b>
     </div>
     <div class="talon-line">
         6. Свидетельство о рождении: <b><?=$talonData['birthCertificateSerial'].' '.$talonData['birthCertificateNumber']; ?></b>
-        7. Выдано: <b><?=$talonData['registryOffice'];?></b>
+        7. Выдано: <b><?=$talonData['registryOffice'].' '.$talonData['birthCertificateDateOfIssue'];?></b>
     </div>
     <div class="talon-line">
         8. СНИЛС: <b><?=$talonData['insuranceCertificate'];?></b>
+        <?php if(isset($talonData['policyNumber']) && !empty($talonData['policyNumber'])) : ?>
         9. Полис: <b><?=$talonData['policyNumber'];?></b>
+        <?php else :?>
+        9. Полис: <b><?=$talonData['temporaryPolicyNumber'];?></b>
+        <?php endif; ?>
     </div>
     <div class="talon-line">
         10. Страховая компания: <b><?=$talonData['insuranceCompanyName'];?></b>
