@@ -68,12 +68,18 @@ class Talon
             $talonData['birthCertificateDateOfIssue'] = date("d.m.Y", strtotime($talonData['birthCertificateDateOfIssue']));
         }
         //СНИЛС к виду: 111-222-333 44
-        $splited = str_split($talonData['insuranceCertificate'], 3);
-        $talonData['insuranceCertificate'] =  implode('-', array_splice($splited, 0 ,3)).' '.$splited[0];
+        if (isset($talonData['insuranceCertificate'])){
+            $splited = str_split($talonData['insuranceCertificate'], 3);
+            $talonData['insuranceCertificate'] =  implode('-', array_splice($splited, 0 ,3)).' '.$splited[0];
+        }
         //Полис к виду: 1111-2222-3333-4444
-        $talonData['policyNumber'] = implode('-', str_split($talonData['policyNumber'], 4));
+        if(isset($talonData['policyNumber'])){
+            $talonData['policyNumber'] = implode('-', str_split($talonData['policyNumber'], 4));
+        }
         //Временный полис к виду: 111-222-333
-        $talonData['temporaryPolicyNumber'] = implode('-', str_split($talonData['temporaryPolicyNumber'], 3));
+        if (isset($talonData['temporaryPolicyNumber'])){
+            $talonData['temporaryPolicyNumber'] = implode('-', str_split($talonData['temporaryPolicyNumber'], 3));
+        }
         //Склейка ФИО и полного адреса
         $talonData['fullName'] = $talonData['surname'].' '.$talonData['firstName'].' '.$talonData['secondName'];
         $talonData['address'] = '';
