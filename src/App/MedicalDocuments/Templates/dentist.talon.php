@@ -7,48 +7,48 @@
             <tbody>
             <tr>
                 <td style="width: 45%">Код врача _________________</td>
-                <td style="width: 45%; text-align: right;">Номер карты: <b><?=$talonData['cardNumber']; ?></b></td>
+                <td style="width: 45%; text-align: right;">Номер карты: <b><?=$formData['cardNumber']; ?></b></td>
             </tr>
             </tbody>
         </table>
     </div>
     <div class="talon-line">
-        1. Ф.И.О <b><?=$talonData['fullName'];?></b>
-        2. Пол: <b><?=$talonData['genderDescription']; ?></b>
-        3. Дата рождения: <b><?=$talonData['dateBirth']; ?></b>
+        1. Ф.И.О <b><?=$formData['fullName'];?></b>
+        2. Пол: <b><?=$formData['genderDescription']; ?></b>
+        3. Дата рождения: <b><?=$formData['dateBirth']; ?></b>
     </div>
     <div class="talon-line">
-        4. Паспортные данные: <b><?=$talonData['passportSerial'].' '.$talonData['passportNumber']; ?></b>
-        5. Выдан: <b><?=$talonData['fmsDepartment'].' '.$talonData['passportDateOfIssue'];?></b>
+        4. Паспортные данные: <b><?=$formData['passportSerial'].' '.$formData['passportNumber']; ?></b>
+        5. Выдан: <b><?=$formData['fmsDepartment'].' '.$formData['passportDateOfIssue'];?></b>
     </div>
     <div class="talon-line">
-        6. Свидетельство о рождении: <b><?=$talonData['birthCertificateSerial'].' '.$talonData['birthCertificateNumber']; ?></b>
-        7. Выдано: <b><?=$talonData['registryOffice'].' '.$talonData['birthCertificateDateOfIssue'];?></b>
+        6. Свидетельство о рождении: <b><?=$formData['birthCertificateSerial'].' '.$formData['birthCertificateNumber']; ?></b>
+        7. Выдано: <b><?=$formData['registryOffice'].' '.$formData['birthCertificateDateOfIssue'];?></b>
     </div>
     <div class="talon-line">
-        8. СНИЛС: <b><?=$talonData['insuranceCertificate'];?></b>
-        <?php if(isset($talonData['policyNumber']) && !empty($talonData['policyNumber'])) : ?>
-        9. Полис: <b><?=$talonData['policyNumber'];?></b>
+        8. СНИЛС: <b><?=$formData['insuranceCertificate'];?></b>
+        <?php if(isset($formData['policyNumber']) && !empty($formData['policyNumber'])) : ?>
+        9. Полис: <b><?=$formData['policyNumber'];?></b>
         <?php else :?>
-        9. Полис: <b><?=$talonData['temporaryPolicyNumber'];?></b>
+        9. Полис: <b><?=$formData['temporaryPolicyNumber'];?></b>
         <?php endif; ?>
     </div>
     <div class="talon-line">
-        10. Страховая компания: <b><?=$talonData['insuranceCompanyName'];?></b>
-        11. Код страховщика: <b><?=$talonData['insurerCode'];?></b>
+        10. Страховая компания: <b><?=$formData['insuranceCompanyName'];?></b>
+        11. Код страховщика: <b><?=$formData['insurerCode'];?></b>
     </div>
     <div class="talon-line">
         12. Категория: ___________
         13. Источник финансирования: ________
     </div>
     <div class="talon-line">
-        14. Адрес: <b><?=$talonData['address']; ?></b>
+        14. Адрес: <b><?=$formData['address']; ?></b>
     </div>
-    <?php if(isset($talonData['workplace']) && !empty($talonData['workplace'])) : ?>
+    <?php if(isset($formData['workplace']) && !empty($formData['workplace'])) : ?>
         <div class="talon-line">
             <b>15. Работает</b>
-            16. Место работы: <b><?=$talonData['workplace']; ?></b>
-            17. Профессия: <b><?=$talonData['profession']; ?></b>
+            16. Место работы: <b><?=$formData['workplace']; ?></b>
+            17. Профессия: <b><?=$formData['profession']; ?></b>
         </div>
     <?php else :?>
         <div class="talon-line">
