@@ -41,20 +41,6 @@ $app
     ->get('/api/v1/search/cards', \Absalon\Application\PatientCard\Search\Actions\SearchCardsAction::class)
     ->lazyMiddleware(['auth', 'search-string-validator']);
 
-#Dispositions Search
-/*$app
-    ->get('/api/v1/search/regions', \Absalon\Application\PatientCard\Search\Actions\SearchRegionsAction::class)
-    ->lazyMiddleware(['auth', 'search-string-validator']);
-$app
-    ->get('/api/v1/search/districts', \Absalon\Application\PatientCard\Search\Actions\SearchDistrictsAction::class)
-    ->lazyMiddleware(['auth', 'search-string-validator']);
-$app
-    ->get('/api/v1/search/localities', \Absalon\Application\PatientCard\Search\Actions\SearchLocalitiesAction::class)
-    ->lazyMiddleware(['auth', 'search-string-validator']);
-$app
-    ->get('/api/v1/search/streets', \Absalon\Application\PatientCard\Search\Actions\SearchStreetsAction::class)
-    ->lazyMiddleware(['auth', 'search-string-validator']);*/
-
 #Insurance Companies Search
 $app
     ->get('/api/v1/search/insurance-companies', \Absalon\Application\PatientCard\Search\Actions\SearchInsuranceCompaniesAction::class)
@@ -110,5 +96,3 @@ $app->get('/api/v1/addresses/search', \Absalon\Application\PatientCard\Addresses
 #Fluorography Reports
 $app->get('/api/v1/report/fluorography/past-patients', \Absalon\Application\Reports\Fluorography\Actions\FluorographyGetPastPatientsAction::class)
     ->lazyMiddleware('auth');
-
-$app->get('/api/v1/dispositions', \Absalon\Application\Dispositions\DispositionsAction::class);

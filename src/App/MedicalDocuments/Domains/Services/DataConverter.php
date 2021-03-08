@@ -79,12 +79,12 @@ class DataConverter
             $streetName = null;
         }
         if (Assert::IsNotEmptyAndNull($address['houseNumber'])){
-            $houseNumber = ', д. '.$address['houseNumber'];
+            $houseNumber = ', дом '.$address['houseNumber'];
         }else{
             $houseNumber = null;
         }
         if (Assert::IsNotEmptyAndNull($address['apartment'])){
-            $apartment = ', кв. '.$address['apartment'];
+            $apartment = ', квартира '.$address['apartment'];
         }else{
             $apartment = null;
         }
