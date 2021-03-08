@@ -22,7 +22,13 @@ class Converter
         return mb_substr($string, 0, -2);
     }
 
-    public static function mbUcFirst(string $string){
+    public static function mbUcFirst(string $string) : string
+    {
         return mb_strtoupper(mb_substr($string, 0, 1)).mb_substr($string, 1);
+    }
+
+    public static function camelize(string $input, string $separator = '_') : string
+    {
+        return str_replace($separator, '', ucwords($input, $separator));
     }
 }
