@@ -42,7 +42,7 @@ $app
     ->lazyMiddleware(['auth', 'search-string-validator']);
 
 #Dispositions Search
-$app
+/*$app
     ->get('/api/v1/search/regions', \Absalon\Application\PatientCard\Search\Actions\SearchRegionsAction::class)
     ->lazyMiddleware(['auth', 'search-string-validator']);
 $app
@@ -53,16 +53,16 @@ $app
     ->lazyMiddleware(['auth', 'search-string-validator']);
 $app
     ->get('/api/v1/search/streets', \Absalon\Application\PatientCard\Search\Actions\SearchStreetsAction::class)
-    ->lazyMiddleware(['auth', 'search-string-validator']);
+    ->lazyMiddleware(['auth', 'search-string-validator']);*/
 
 #Insurance Companies Search
 $app
     ->get('/api/v1/search/insurance-companies', \Absalon\Application\PatientCard\Search\Actions\SearchInsuranceCompaniesAction::class)
     ->lazyMiddleware(['auth', 'search-string-validator']);
 
-#Talons
+#MedicalDocuments
 $app
-    ->get('/api/v1/talons/{talon:word}/{id:uuid}', \Absalon\Application\Talons\Actions\TalonShowAction::class)
+    ->get('/api/v1/documents/forms/{id:uuid}', \Absalon\Application\MedicalDocuments\Actions\MedicalFormShowAction::class)
     ->lazyMiddleware('auth');
 
 #Authentication
@@ -96,9 +96,19 @@ $app->delete('/api/v1/vaccinations', \Absalon\Application\Vaccinations\Actions\V
     ->lazyMiddleware('auth');
 
 #Addresses
-//$app->get('/api/v1/addresses/{id:uuid}', \Absalon\Application\PatientCard\Addresses\Actions\AddressesGetAction::class)
-    //->lazyMiddleware('auth');
+$app->get('/api/v1/addresses/{id:uuid}', \Absalon\Application\PatientCard\Addresses\Actions\AddressesGetAction::class)
+    ->lazyMiddleware('auth');
+$app->post('/api/v1/addresses', \Absalon\Application\PatientCard\Addresses\Actions\AddressCreateAction::class)
+    ->lazyMiddleware('auth');
+$app->put('/api/v1/addresses', \Absalon\Application\PatientCard\Addresses\Actions\AddressUpdateAction::class)
+    ->lazyMiddleware('auth');
+
+#Addresses Search
+$app->get('/api/v1/addresses/search', \Absalon\Application\PatientCard\Addresses\Actions\AddressSearchAction::class)
+    ->lazyMiddleware(['auth', 'search-string-validator']);
 
 #Fluorography Reports
 $app->get('/api/v1/report/fluorography/past-patients', \Absalon\Application\Reports\Fluorography\Actions\FluorographyGetPastPatientsAction::class)
     ->lazyMiddleware('auth');
+
+$app->get('/api/v1/dispositions', \Absalon\Application\Dispositions\DispositionsAction::class);
