@@ -48,47 +48,50 @@ class DataConverter
 
     public static function getFullAddress(array $address) : string|null
     {
-        if (Assert::IsNotEmptyAndNull($address['regionName'])){
-            $region = $address['regionName'];
-        }else{
-            $region = null;
+        if (Assert::IsNotEmptyAndNull($address)){
+            if (Assert::IsNotEmptyAndNull($address['regionName'])){
+                $region = $address['regionName'];
+            }else{
+                $region = null;
+            }
+            if (Assert::IsNotEmptyAndNull($address['districtName'])){
+                $district = ', '.$address['districtName'];
+            }else{
+                $district = null;
+            }
+            if (Assert::IsNotEmptyAndNull($address['localityPrefix'])){
+                $localityPrefix = ', '.$address['localityPrefix'];
+            }else{
+                $localityPrefix = null;
+            }
+            if (Assert::IsNotEmptyAndNull($address['localityName'])){
+                $localityName = ' '.$address['localityName'];
+            }else{
+                $localityName = null;
+            }
+            if (Assert::IsNotEmptyAndNull($address['streetPrefix'])){
+                $streetPrefix = ', '.$address['streetPrefix'];
+            }else{
+                $streetPrefix = null;
+            }
+            if (Assert::IsNotEmptyAndNull($address['streetName'])){
+                $streetName = ' '.$address['streetName'];
+            }else{
+                $streetName = null;
+            }
+            if (Assert::IsNotEmptyAndNull($address['houseNumber'])){
+                $houseNumber = ', дом '.$address['houseNumber'];
+            }else{
+                $houseNumber = null;
+            }
+            if (Assert::IsNotEmptyAndNull($address['apartment'])){
+                $apartment = ', квартира '.$address['apartment'];
+            }else{
+                $apartment = null;
+            }
+            return $region.$district.$localityPrefix.$localityName.$streetPrefix.$streetName.$houseNumber.$apartment;
         }
-        if (Assert::IsNotEmptyAndNull($address['districtName'])){
-            $district = ', '.$address['districtName'];
-        }else{
-            $district = null;
-        }
-        if (Assert::IsNotEmptyAndNull($address['localityPrefix'])){
-            $localityPrefix = ', '.$address['localityPrefix'];
-        }else{
-            $localityPrefix = null;
-        }
-        if (Assert::IsNotEmptyAndNull($address['localityName'])){
-            $localityName = ' '.$address['localityName'];
-        }else{
-            $localityName = null;
-        }
-        if (Assert::IsNotEmptyAndNull($address['streetPrefix'])){
-            $streetPrefix = ', '.$address['streetPrefix'];
-        }else{
-            $streetPrefix = null;
-        }
-        if (Assert::IsNotEmptyAndNull($address['streetName'])){
-            $streetName = ' '.$address['streetName'];
-        }else{
-            $streetName = null;
-        }
-        if (Assert::IsNotEmptyAndNull($address['houseNumber'])){
-            $houseNumber = ', дом '.$address['houseNumber'];
-        }else{
-            $houseNumber = null;
-        }
-        if (Assert::IsNotEmptyAndNull($address['apartment'])){
-            $apartment = ', квартира '.$address['apartment'];
-        }else{
-            $apartment = null;
-        }
-        return $region.$district.$localityPrefix.$localityName.$streetPrefix.$streetName.$houseNumber.$apartment;
+        return null;
     }
 
     public static function getInsuranceCompany(string|null $insurerCode, string|null $insuranceCompanyName) : string|null
