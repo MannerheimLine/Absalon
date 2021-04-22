@@ -41,7 +41,7 @@ class CardCreateDTO
         }
         //Привести к нормальному виду ФИО
         $this->_surname = Converter::mbUcFirst($this->_surname);
-        $this->_firstName = Converter::mbUcFirst($this->_surname);
+        $this->_firstName = Converter::mbUcFirst($this->_firstName);
         $this->_secondName = Converter::mbUcFirst($this->_secondName);
     }
 
